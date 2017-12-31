@@ -5,7 +5,7 @@ class App extends Component {
   render() {
     return (
       <p>
-        To get started ...
+        Work in progress, check back soon.
       </p>
     );
   }
