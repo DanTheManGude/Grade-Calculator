@@ -39,6 +39,25 @@ class GradeApp extends React.Component {
 }
 
 class Grade extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleName = this.handleName.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleName(event) {
+        store.dispatch({
+            type: 'CHANGE_NAME',
+            name: event.target.value,
+            h: this.props.state.heritage.concat(this.props.state.id)
+        });
+    }
+
+    handleSubmit(event) {
+        alert('A name was submitted: ' + this.props.state.name);
+    }
+
     render() {
         return(
             <div>
@@ -54,13 +73,30 @@ class Grade extends React.Component {
                         }}>Add</button>
                     </li>
                     <li><button
-                        className="btn btn-warning btn-sm" onClick={() => {
-                            store.dispatch({
-                                type: 'CHANGE_NAME',
-                                name: 'New Name',
-                                h: this.props.state.heritage.concat(this.props.state.id)
-                            });
-                        }}>Change Name</button>
+                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm">Change Name</button>
+                        <div className="modal fade" id="EditModalForm" role="dialog">
+                            <div className="modal-dialog modal-sm">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h4 className="modal-title">Edit Grade</h4>
+                                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div className="modal-body">
+                                    <form className="form-horizontal">
+                                        <div className="form-group">
+                                            <label className="control-label col-sm-2"> Name: </label>
+                                            <div className="">
+                                                <input type="text" className="form-control" placeholder="Enter name" defaultValue={this.props.state.name} onChange={this.handleName}/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div className="modal-footer">
+                                  <button type="button" onClick={this.handleSubmit} className="btn btn-info" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
                     </li>
                     <li><button
                         className="btn btn-info btn-sm" onClick={() => {
