@@ -226,12 +226,7 @@ const store = createStore(gradeApp);
 const render = () => {
     ReactDOM.render(
         <div className="app">
-          <p>
-            Work in progress, check back soon.
-          </p>
-          <div className="base-grade">
-              <Grade state={store.getState().baseGrade} />
-          </div>
+            <Grade state={store.getState().baseGrade} />
         </div>,
         document.getElementById('root')
     );
