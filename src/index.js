@@ -6,37 +6,6 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 
-class GradeApp extends React.Component {
-    render() {
-        return(
-            <div>
-                <p>{this.props.state.baseData.name} <strong>{this.props.state.baseData.avg}</strong></p>
-                <ul>
-                    <li><button
-                        className="btn btn-warning btn-sm" onClick={() => {
-                            store.dispatch({
-                                type: 'MODIFY',
-                            })
-                        }}>Modify</button>
-                    </li>
-                    <li><button
-                        className="btn btn-primary btn-sm" onClick={() => {
-                            store.dispatch({
-                                type: 'MORE',
-                                h: []
-                            })
-                        }}>More</button>
-                    </li>
-                    {this.props.state.grades.map(grade =>
-                        <li key={grade.id}>
-                            <Grade state={grade}/>
-                        </li>
-                    )}
-                </ul>
-            </div>
-        );
-    }
-}
 
 class Grade extends React.Component {
     constructor(props) {
@@ -91,7 +60,6 @@ class EditModalForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleName = this.handleName.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -155,22 +123,17 @@ class EditModalForm extends React.Component {
     }
 }
 
-const defaultGrade = (h) => {
-    return {
-        grades: [],
-        avg: 100,
-        name: 'New Grade',
-        heritage: h,
-        id: (new Date()).getTime()-1515215358101
-    }
-}
-
 const adding = (state, h, ogH) => {
     if (state.id === h[0]) {
         if (h.length > 1) {
             return {...state,grades: state.grades.map(g => adding(g, h.slice(1), ogH))};
         }
-        return {...state,grades: state.grades.concat(defaultGrade(ogH))};
+        return {...state,grades: state.grades.concat({...state,
+            grades: [],
+            name: 'New Grade',
+            heritage: ogH,
+            id: (new Date()).getTime()-1515215358101
+        })};
     }
     return state;
 }
@@ -180,7 +143,7 @@ const changingAvg = (state, h, avg) => {
         if (h.length > 1) {
             return {...state,grades: state.grades.map(g => changingAvg(g, h.slice(1), avg))};
         }
-        return { ...state,avg: avg};
+        return {...state,avg: avg};
     }
     return state;
 }
@@ -190,7 +153,7 @@ const changingName = (state, h, name) => {
         if (h.length > 1) {
             return {...state,grades: state.grades.map(g => changingName(g, h.slice(1), name))};
         }
-        return { ...state,name: name};
+        return {...state,name: name};
     }
     return state;
 }
@@ -204,10 +167,18 @@ const calculatingAvg = (grades) => {
     return (total/(grades.length));
 }
 
-const grade = (state, action) => {
+const defaultGrade = (h) => {
+    return {
+        grades: [],
+        avg: 100,
+        name: 'New Grade',
+        heritage: h,
+        id: (new Date()).getTime()-1515215358101
+    }
+}
+
+const baseGrade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
     switch (action.type) {
-        case 'MORE':
-            return defaultGrade(action.h);
         case 'ADD':
             return adding(state, action.h, action.h);
         case 'CHANGE_AVG':
@@ -216,44 +187,12 @@ const grade = (state, action) => {
             return changingName(state, action.h, action.name);
         case 'CALCULATE_AVG':
             if (action.h.includes(state.id)){
-                var newGrades = grades(state.grades, action);
+                var newGrades = state.grades.map(g => baseGrade(g, action));
                 return { ...state,avg: calculatingAvg(newGrades), grades: newGrades};
             }
             return state;
         default:
           return state
-      }
-}
-
-const grades = (state = [], action) => {
-    switch (action.type) {
-        case 'MORE':
-            return [...state,grade(undefined, action)];
-        case 'ADD':
-            return state.map(g => grade(g, action));
-        case 'CHANGE_AVG':
-            return state.map(g => grade(g, action));
-        case 'CHANGE_NAME':
-            return state.map(g => grade(g, action));
-        case 'CALCULATE_AVG':
-            return state.map(g => grade(g, action));
-        default:
-          return state;
-      }
-}
-
-const initialData = {
-    avg: 100,
-    name: 'Overall Grade',
-    id: (new Date()).getTime()
-}
-
-const baseData = (state = initialData, action) => {
-    switch (action.type) {
-        case 'MODIFY':
-            return state;
-        default:
-            return state;
         }
 }
 
@@ -278,8 +217,7 @@ const editGradeModal = (state = initialGradeModal, action) => {
 }
 
 const gradeApp = combineReducers({
-    grades,
-    baseData,
+    baseGrade,
     editGradeModal
 });
 
@@ -292,9 +230,7 @@ const render = () => {
             Work in progress, check back soon.
           </p>
           <div className="base-grade">
-              <GradeApp
-                state={store.getState()}
-              />
+              <Grade state={store.getState().baseGrade} />
           </div>
         </div>,
         document.getElementById('root')
