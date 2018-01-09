@@ -42,20 +42,15 @@ class Grade extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleName = this.handleName.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.setModalData = this.setModalData.bind(this);
     }
 
-    handleName(event) {
+    setModalData(event) {
+        console.log('setting setModalData & id: ' + this.props.state.id);
         store.dispatch({
-            type: 'CHANGE_NAME',
-            name: event.target.value,
-            h: this.props.state.heritage.concat(this.props.state.id)
+            type: 'SET_GRADE_MODAL',
+            data: this.props.state
         });
-    }
-
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.props.state.name);
     }
 
     render() {
@@ -73,27 +68,11 @@ class Grade extends React.Component {
                         }}>Add</button>
                     </li>
                     <li><button
-                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm">Change Name</button>
+                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalData}>Change Name</button>
                         <div className="modal fade" id="EditModalForm" role="dialog">
                             <div className="modal-dialog modal-sm">
                               <div className="modal-content">
-                                <div className="modal-header">
-                                  <h4 className="modal-title">Edit Grade</h4>
-                                  <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div className="modal-body">
-                                    <form className="form-horizontal">
-                                        <div className="form-group">
-                                            <label className="control-label col-sm-2"> Name: </label>
-                                            <div className="">
-                                                <input type="text" className="form-control" placeholder="Enter name" defaultValue={this.props.state.name} onChange={this.handleName}/>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                  <button type="button" onClick={this.handleSubmit} className="btn btn-info" data-dismiss="modal">Close</button>
-                                </div>
+                                <EditModalForm state={this.props.state} />
                               </div>
                             </div>
                         </div>
@@ -115,6 +94,52 @@ class Grade extends React.Component {
                 </ul>
             </div>
         );
+    }
+}
+
+class EditModalForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleName = this.handleName.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleName(event) {
+        store.dispatch({
+            type: 'CHANGE_NAME_MODAL',
+            name: event.target.value,
+        });
+    }
+
+    handleSubmit(event) {
+        store.dispatch({
+            type: 'CHANGE_NAME',
+            name: store.getState().editGradeModal.name,
+            h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
+        });
+    }
+
+    render() {
+        return(
+            <div>
+            <div className="modal-header">
+              <h4 className="modal-title">Edit Grade</h4>
+              <button type="button" className="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div className="modal-body">
+                <form className="form-horizontal">
+                    <div className="form-group">
+                        <label className="control-label col-sm-2"> Name: </label>
+                        <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
+                    </div>
+                </form>
+            </div>
+            <div className="modal-footer">
+              <button type="button" onClick={this.handleSubmit} className="btn btn-info" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        )
     }
 }
 
@@ -203,9 +228,29 @@ const baseData = (state = initialData, action) => {
         }
 }
 
+const initialGradeModal = {
+    name: 'Wade Mauger',
+    id: 44,
+    heritage: [229],
+    avg: 0
+}
+
+const editGradeModal = (state = initialGradeModal, action) => {
+    switch (action.type) {
+        case 'SET_GRADE_MODAL':
+            console.log('setting grade modal ' + action.data.name);
+            return action.data;
+        case 'CHANGE_NAME_MODAL':
+            return { ...state,name: action.name};
+        default:
+            return state;
+        }
+}
+
 const gradeApp = combineReducers({
     grades,
-    baseData
+    baseData,
+    editGradeModal
 });
 
 const store = createStore(gradeApp);
