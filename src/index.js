@@ -46,7 +46,6 @@ class Grade extends React.Component {
     }
 
     setModalData(event) {
-        console.log('setting setModalData & id: ' + this.props.state.id);
         store.dispatch({
             type: 'SET_GRADE_MODAL',
             data: this.props.state
@@ -68,7 +67,7 @@ class Grade extends React.Component {
                         }}>Add</button>
                     </li>
                     <li><button
-                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalData}>Change Name</button>
+                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalData}>Edit</button>
                         <div className="modal fade" id="EditModalForm" role="dialog">
                             <div className="modal-dialog modal-sm">
                               <div className="modal-content">
@@ -76,15 +75,6 @@ class Grade extends React.Component {
                               </div>
                             </div>
                         </div>
-                    </li>
-                    <li><button
-                        className="btn btn-info btn-sm" onClick={() => {
-                            store.dispatch({
-                                type: 'CHANGE_AVG',
-                                avg: 229,
-                                h: this.props.state.heritage.concat(this.props.state.id)
-                            });
-                        }}>Change Grade</button>
                     </li>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
@@ -112,12 +102,30 @@ class EditModalForm extends React.Component {
         });
     }
 
+    handleAvg(event) {
+        store.dispatch({
+            type: 'CHANGE_AVG_MODAL',
+            avg: event.target.value,
+        });
+    }
+
     handleSubmit(event) {
         store.dispatch({
             type: 'CHANGE_NAME',
             name: store.getState().editGradeModal.name,
             h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
         });
+        if (store.getState().editGradeModal.avg !== this.props.state.avg) {
+            store.dispatch({
+                type: 'CHANGE_AVG',
+                avg: store.getState().editGradeModal.avg,
+                h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
+            });
+            store.dispatch({
+                type: 'CALCULATE_AVG',
+                h: store.getState().editGradeModal.heritage
+            });
+        }
     }
 
     render() {
@@ -132,6 +140,10 @@ class EditModalForm extends React.Component {
                     <div className="form-group">
                         <label className="control-label col-sm-2"> Name: </label>
                         <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-2"> Average: </label>
+                        <input type="number" step=".01" className="form-control" placeholder="Enter Average" value={store.getState().editGradeModal.avg} onChange={this.handleAvg}/>
                     </div>
                 </form>
             </div>
@@ -183,6 +195,15 @@ const changingName = (state, h, name) => {
     return state;
 }
 
+const calculatingAvg = (grades) => {
+    var total = 0;
+        grades.forEach(function(g) {
+            total =  + (g.avg) + total;
+        });
+
+    return (total/(grades.length));
+}
+
 const grade = (state, action) => {
     switch (action.type) {
         case 'MORE':
@@ -193,6 +214,12 @@ const grade = (state, action) => {
             return changingAvg(state, action.h, action.avg);
         case 'CHANGE_NAME':
             return changingName(state, action.h, action.name);
+        case 'CALCULATE_AVG':
+            if (action.h.includes(state.id)){
+                var newGrades = grades(state.grades, action);
+                return { ...state,avg: calculatingAvg(newGrades), grades: newGrades};
+            }
+            return state;
         default:
           return state
       }
@@ -207,6 +234,8 @@ const grades = (state = [], action) => {
         case 'CHANGE_AVG':
             return state.map(g => grade(g, action));
         case 'CHANGE_NAME':
+            return state.map(g => grade(g, action));
+        case 'CALCULATE_AVG':
             return state.map(g => grade(g, action));
         default:
           return state;
@@ -229,19 +258,20 @@ const baseData = (state = initialData, action) => {
 }
 
 const initialGradeModal = {
-    name: 'Wade Mauger',
-    id: 44,
-    heritage: [229],
+    name: '',
+    id: 0,
+    heritage: [],
     avg: 0
 }
 
 const editGradeModal = (state = initialGradeModal, action) => {
     switch (action.type) {
         case 'SET_GRADE_MODAL':
-            console.log('setting grade modal ' + action.data.name);
             return action.data;
         case 'CHANGE_NAME_MODAL':
             return { ...state,name: action.name};
+        case 'CHANGE_AVG_MODAL':
+            return { ...state,avg: action.avg};
         default:
             return state;
         }
