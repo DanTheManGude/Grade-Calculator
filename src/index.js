@@ -66,14 +66,22 @@ class EditModalForm extends React.Component {
     handleName(event) {
         store.dispatch({
             type: 'CHANGE_NAME_MODAL',
-            name: event.target.value,
+            name: event.target.value
         });
     }
 
     handleAvg(event) {
         store.dispatch({
             type: 'CHANGE_AVG_MODAL',
-            avg: event.target.value,
+            avg: event.target.value
+        });
+    }
+
+    handleDelete(event) {
+        store.dispatch({
+            type: 'DELETE_GRADE',
+            h: store.getState().editGradeModal.heritage,
+            id: store.getState().editGradeModal.id
         });
     }
 
@@ -116,7 +124,10 @@ class EditModalForm extends React.Component {
                 </form>
             </div>
             <div className="modal-footer">
-              <button type="button" onClick={this.handleSubmit} className="btn btn-info" data-dismiss="modal">Close</button>
+                <div class="flex-container">
+                  <button type="button" onClick={this.handleDelete} className="btn btn-danger" data-dismiss="modal">Delete</button>
+                  <button type="button" onClick={this.handleSubmit} className="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
             </div>
             </div>
         )
@@ -158,6 +169,16 @@ const changingName = (state, h, name) => {
     return state;
 }
 
+const deletingGrade = (state, h, id) => {
+    if (state.id === h[0]) {
+        if (h.length > 1) {
+            return {...state,grades: state.grades.map(g => deletingGrade(g, h.slice(1), id))};
+        }
+        return {...state,grades: state.grades.filter(g => g.id !== id)};
+    }
+    return state;
+}
+
 const calculatingAvg = (grades) => {
     var total = 0;
         grades.forEach(function(g) {
@@ -191,6 +212,8 @@ const baseGrade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) =
                 return { ...state,avg: calculatingAvg(newGrades), grades: newGrades};
             }
             return state;
+        case 'DELETE_GRADE':
+            return deletingGrade(state, action.h, action.id);
         default:
           return state
         }

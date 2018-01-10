@@ -8,3 +8,13 @@ body {
     float: left;
     text-align: left;
 }
+
+.flex-container {
+  display: flex;
+  width: 100%;
+}
+
+.flex-container>button {
+  width: 100%;
+  margin: 0 4%;
+}
