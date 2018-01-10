@@ -68,7 +68,7 @@ class EditModalForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleName(event) {
@@ -85,31 +85,29 @@ class EditModalForm extends React.Component {
         });
     }
 
-    handleDelete(event) {
-        store.dispatch({
-            type: 'DELETE_GRADE',
-            h: store.getState().editGradeModal.heritage,
-            id: store.getState().editGradeModal.id
-        });
-    }
-
-    handleSubmit(event) {
-        store.dispatch({
-            type: 'CHANGE_NAME',
-            name: store.getState().editGradeModal.name,
-            h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
-        });
-        if (store.getState().editGradeModal.avg !== this.props.state.avg) {
+    handleClose(event) {
+        if (event.target.innerHTML === 'Save') {
+            store.dispatch({
+                type: 'CHANGE_NAME',
+                name: store.getState().editGradeModal.name,
+                h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
+            });
             store.dispatch({
                 type: 'CHANGE_AVG',
                 avg: store.getState().editGradeModal.avg,
                 h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
             });
+        } else {
             store.dispatch({
-                type: 'CALCULATE_AVG',
-                h: store.getState().editGradeModal.heritage
+                type: 'DELETE_GRADE',
+                h: store.getState().editGradeModal.heritage,
+                id: store.getState().editGradeModal.id
             });
         }
+        store.dispatch({
+            type: 'CALCULATE_AVG',
+            h: store.getState().editGradeModal.heritage
+        });
     }
 
     render() {
@@ -133,8 +131,9 @@ class EditModalForm extends React.Component {
             </div>
             <div className="modal-footer">
                 <div className="flex-container">
-                  <button type="button" onClick={this.handleDelete} className="btn btn-danger" data-dismiss="modal">Delete</button>
-                  <button type="button" onClick={this.handleSubmit} className="btn btn-success" data-dismiss="modal">Close</button>
+                  <button type="button" onClick={this.handleClose} className="btn btn-danger" data-dismiss="modal">Delete</button>
+                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" onClick={this.handleClose} className="btn btn-success" data-dismiss="modal">Save</button>
                 </div>
             </div>
             </div>
@@ -157,7 +156,7 @@ const defaultGrade = (h) => {
         avg: 100,
         name: 'New Grade',
         heritage: h,
-        id: (new Date()).getTime()-1515215358101,
+        id: (new Date()).getTime()-1515569653105,
         hide: false
     }
 }
