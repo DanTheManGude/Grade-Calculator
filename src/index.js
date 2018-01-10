@@ -24,7 +24,15 @@ class Grade extends React.Component {
     render() {
         return(
             <div>
-                <p>{this.props.state.name} <strong>{this.props.state.avg}</strong>
+                <p>
+                    {this.props.state.name}
+                    <strong> {this.props.state.avg} </strong>
+                    <button className="btn btn-info btn-sm" onClick={() => {
+                        store.dispatch({
+                            type: 'hideORshow',
+                            h: this.props.state.heritage.concat(this.props.state.id)
+                        })
+                    }}>{this.props.state.hide}</button>
                 </p>
                 <ul>
                     <li><button
@@ -124,9 +132,9 @@ class EditModalForm extends React.Component {
                 </form>
             </div>
             <div className="modal-footer">
-                <div class="flex-container">
+                <div className="flex-container">
                   <button type="button" onClick={this.handleDelete} className="btn btn-danger" data-dismiss="modal">Delete</button>
-                  <button type="button" onClick={this.handleSubmit} className="btn btn-info" data-dismiss="modal">Close</button>
+                  <button type="button" onClick={this.handleSubmit} className="btn btn-success" data-dismiss="modal">Close</button>
                 </div>
             </div>
             </div>
@@ -169,6 +177,16 @@ const changingName = (state, h, name) => {
     return state;
 }
 
+const switchingHide = (state, h) => {
+    if (state.id === h[0]) {
+        if (h.length > 1) {
+            return {...state,grades: state.grades.map(g => switchingHide(g, h.slice(1)))};
+        }
+        return {...state,hide: !state.hide};
+    }
+    return state;
+}
+
 const deletingGrade = (state, h, id) => {
     if (state.id === h[0]) {
         if (h.length > 1) {
@@ -194,7 +212,8 @@ const defaultGrade = (h) => {
         avg: 100,
         name: 'New Grade',
         heritage: h,
-        id: (new Date()).getTime()-1515215358101
+        id: (new Date()).getTime()-1515215358101,
+        hide: false
     }
 }
 
@@ -214,6 +233,8 @@ const baseGrade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) =
             return state;
         case 'DELETE_GRADE':
             return deletingGrade(state, action.h, action.id);
+        case 'hideORshow':
+            return switchingHide(state, action.h);
         default:
           return state
         }
