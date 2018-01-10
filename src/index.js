@@ -29,7 +29,7 @@ class Grade extends React.Component {
                     <strong> {this.props.state.avg} </strong>
                     <button className="btn btn-info btn-sm" onClick={() => {
                         store.dispatch({
-                            type: 'hideORshow',
+                            type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)
                         })
                     }}>{this.props.state.hide}</button>
@@ -142,61 +142,6 @@ class EditModalForm extends React.Component {
     }
 }
 
-const adding = (state, h, ogH) => {
-    if (state.id === h[0]) {
-        if (h.length > 1) {
-            return {...state,grades: state.grades.map(g => adding(g, h.slice(1), ogH))};
-        }
-        return {...state,grades: state.grades.concat({...state,
-            grades: [],
-            name: 'New Grade',
-            heritage: ogH,
-            id: (new Date()).getTime()-1515215358101
-        })};
-    }
-    return state;
-}
-
-const changingAvg = (state, h, avg) => {
-    if (state.id === h[0]) {
-        if (h.length > 1) {
-            return {...state,grades: state.grades.map(g => changingAvg(g, h.slice(1), avg))};
-        }
-        return {...state,avg: avg};
-    }
-    return state;
-}
-
-const changingName = (state, h, name) => {
-    if (state.id === h[0]) {
-        if (h.length > 1) {
-            return {...state,grades: state.grades.map(g => changingName(g, h.slice(1), name))};
-        }
-        return {...state,name: name};
-    }
-    return state;
-}
-
-const switchingHide = (state, h) => {
-    if (state.id === h[0]) {
-        if (h.length > 1) {
-            return {...state,grades: state.grades.map(g => switchingHide(g, h.slice(1)))};
-        }
-        return {...state,hide: !state.hide};
-    }
-    return state;
-}
-
-const deletingGrade = (state, h, id) => {
-    if (state.id === h[0]) {
-        if (h.length > 1) {
-            return {...state,grades: state.grades.map(g => deletingGrade(g, h.slice(1), id))};
-        }
-        return {...state,grades: state.grades.filter(g => g.id !== id)};
-    }
-    return state;
-}
-
 const calculatingAvg = (grades) => {
     var total = 0;
         grades.forEach(function(g) {
@@ -217,24 +162,45 @@ const defaultGrade = (h) => {
     }
 }
 
-const baseGrade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
+const editingGrade = (state, h, action) => {
+    if (state.id === h[0]) {
+        if (h.length > 1) {
+            return {...state,grades: state.grades.map(g => editingGrade(g, h.slice(1), action))};
+        }
+        switch (action.type) {
+            case 'ADD':
+                return {...state,grades: state.grades.concat({...state,
+                    grades: [],
+                    name: 'New Grade',
+                    heritage: action.h,
+                    id: (new Date()).getTime()-1515215358101
+                })};
+            case 'CHANGE_AVG':
+                return {...state,avg: action.avg};
+            case 'CHANGE_NAME':
+                return {...state,name: action.name};
+            case 'DELETE_GRADE':
+                return {...state,grades: state.grades.filter(g => g.id !== action.id)};
+            case 'TOGGLE_HIDE':
+                return {...state,hide: !state.hide};
+            default:
+              return state
+        }
+    }
+    return state;
+}
+
+const grade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
+    if (['ADD', 'CHANGE_AVG', 'CHANGE_NAME', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
+        return editingGrade(state, action.h, action);
+    }
     switch (action.type) {
-        case 'ADD':
-            return adding(state, action.h, action.h);
-        case 'CHANGE_AVG':
-            return changingAvg(state, action.h, action.avg);
-        case 'CHANGE_NAME':
-            return changingName(state, action.h, action.name);
         case 'CALCULATE_AVG':
             if (action.h.includes(state.id)){
-                var newGrades = state.grades.map(g => baseGrade(g, action));
-                return { ...state,avg: calculatingAvg(newGrades), grades: newGrades};
+                var newGrades = state.grades.map(g => grade(g, action));
+                return {...state,avg: calculatingAvg(newGrades), grades: newGrades};
             }
             return state;
-        case 'DELETE_GRADE':
-            return deletingGrade(state, action.h, action.id);
-        case 'hideORshow':
-            return switchingHide(state, action.h);
         default:
           return state
         }
@@ -252,16 +218,16 @@ const editGradeModal = (state = initialGradeModal, action) => {
         case 'SET_GRADE_MODAL':
             return action.data;
         case 'CHANGE_NAME_MODAL':
-            return { ...state,name: action.name};
+            return {...state,name: action.name};
         case 'CHANGE_AVG_MODAL':
-            return { ...state,avg: action.avg};
+            return {...state,avg: action.avg};
         default:
             return state;
         }
 }
 
 const gradeApp = combineReducers({
-    baseGrade,
+    grade,
     editGradeModal
 });
 
@@ -270,7 +236,7 @@ const store = createStore(gradeApp);
 const render = () => {
     ReactDOM.render(
         <div className="app">
-            <Grade state={store.getState().baseGrade} />
+            <Grade state={store.getState().grade} />
         </div>,
         document.getElementById('root')
     );
