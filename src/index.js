@@ -99,6 +99,13 @@ class EditModalForm extends React.Component {
         });
     }
 
+    handleWeight(event) {
+        store.dispatch({
+            type: 'CHANGE_WEIGHT_MODAL',
+            weight: event.target.value
+        });
+    }
+
     handleClose(event) {
         if (event.target.innerHTML === 'Save') {
             store.dispatch({
@@ -109,6 +116,11 @@ class EditModalForm extends React.Component {
             store.dispatch({
                 type: 'CHANGE_AVG',
                 avg: store.getState().editGradeModal.avg,
+                h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
+            });
+            store.dispatch({
+                type: 'CHANGE_WEIGHT',
+                weight: store.getState().editGradeModal.weight,
                 h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
             });
         } else {
@@ -141,6 +153,10 @@ class EditModalForm extends React.Component {
                         <label className="control-label col-sm-2"> Average: </label>
                         <input type="number" step=".01" className="form-control" placeholder="Enter Average" value={store.getState().editGradeModal.avg} onChange={this.handleAvg} disabled={store.getState().editGradeModal.grades.length > 0}/>
                     </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-2"> Weight: </label>
+                        <input type="number" step=".1" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleWeight}/>
+                    </div>
                 </form>
             </div>
             <div className="modal-footer">
@@ -156,12 +172,14 @@ class EditModalForm extends React.Component {
 }
 
 const calculatingAvg = (grades) => {
-    var total = 0;
+    var value = 0;
+    var weight = 0;
         grades.forEach(function(g) {
-            total =  + (g.avg) + total;
+            value =  ((+(g.avg)) * (+(g.weight))) + value;
+            weight = + (g.weight) + weight;
         });
 
-    return (total/(grades.length));
+    return (value/weight);
 }
 
 const defaultGrade = (h) => {
@@ -171,7 +189,8 @@ const defaultGrade = (h) => {
         name: 'New Grade',
         heritage: h,
         id: (new Date()).getTime()-1515569653105,
-        hide: false
+        hide: false,
+        weight: 1
     }
 }
 
@@ -192,6 +211,8 @@ const editingGrade = (state, h, action) => {
                 return {...state,avg: action.avg};
             case 'CHANGE_NAME':
                 return {...state,name: action.name};
+            case 'CHANGE_WEIGHT':
+                return {...state,weight: action.weight};
             case 'DELETE_GRADE':
                 return {...state,grades: state.grades.filter(g => g.id !== action.id)};
             case 'TOGGLE_HIDE':
@@ -204,7 +225,7 @@ const editingGrade = (state, h, action) => {
 }
 
 const grade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
-    if (['ADD', 'CHANGE_AVG', 'CHANGE_NAME', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
+    if (['ADD', 'CHANGE_AVG', 'CHANGE_NAME', 'CHANGE_WEIGHT', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
         return editingGrade(state, action.h, action);
     }
     switch (action.type) {
@@ -224,7 +245,8 @@ const initialGradeModal = {
     id: 0,
     heritage: [],
     avg: 0,
-    grades: []
+    grades: [],
+    weight: 0
 }
 
 const editGradeModal = (state = initialGradeModal, action) => {
@@ -235,6 +257,8 @@ const editGradeModal = (state = initialGradeModal, action) => {
             return {...state,name: action.name};
         case 'CHANGE_AVG_MODAL':
             return {...state,avg: action.avg};
+        case 'CHANGE_WEIGHT_MODAL':
+            return {...state,weight: action.weight};
         default:
             return state;
         }
