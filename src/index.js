@@ -209,7 +209,7 @@ const grade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
     }
     switch (action.type) {
         case 'CALCULATE_AVG':
-            if (action.h.includes(state.id)){
+            if (action.h.includes(state.id) && state.grades.length > 0){
                 var newGrades = state.grades.map(g => grade(g, action));
                 return {...state,avg: calculatingAvg(newGrades), grades: newGrades};
             }
