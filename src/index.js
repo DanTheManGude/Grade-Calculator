@@ -94,26 +94,28 @@ class EditModalForm extends React.Component {
     }
 
     handleChange(event){
-        //check if number
-        var newRecieved = store.getState().editGradeModal.recieved;
-        var newAvailable = store.getState().editGradeModal.available;
-        var newWeight = store.getState().editGradeModal.weight;
-        switch (event.target.name) {
-            case 'recieved':
-                newRecieved = event.target.value;
-                break;
-            case 'available':
-                newAvailable = event.target.value;
-                break;
-            case 'weight':
-                newWeight = event.target.value;
-                break;
-            default:
+        console.log(event.target.value);
+        if (event.target.value >= 0){
+            var newRecieved = store.getState().editGradeModal.recieved;
+            var newAvailable = store.getState().editGradeModal.available;
+            var newWeight = store.getState().editGradeModal.weight;
+            switch (event.target.name) {
+                case 'recieved':
+                    newRecieved = event.target.value;
+                    break;
+                case 'available':
+                    newAvailable = event.target.value;
+                    break;
+                case 'weight':
+                    newWeight = event.target.value;
+                    break;
+                default:
+            }
+            store.dispatch({
+                type: 'UPDATE_MODAL',
+                state: {...store.getState().editGradeModal,recieved: newRecieved, available: newAvailable, weight: newWeight, avg: 100*newRecieved/newAvailable}
+            });
         }
-        store.dispatch({
-            type: 'UPDATE_MODAL',
-            state: {...store.getState().editGradeModal,recieved: newRecieved, available: newAvailable, weight: newWeight, avg: 100*newRecieved/newAvailable}
-        });
     }
 
     handleClose(event) {
@@ -155,11 +157,11 @@ class EditModalForm extends React.Component {
                     <div style={pointsStyle} className="form-group flex-container">
                         <div className="flex-element">
                             <label className="control-label">Points Recieved: </label>
-                            <input name='recieved' type="number" step=".01" min="0" className="form-control" placeholder="Enter Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleChange}/>
+                            <input name='recieved' type="number" step=".01" min="0" className="form-control" placeholder="Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleChange}/>
                         </div>
                         <div className="flex-element">
                             <label className="control-label">Points Available: </label>
-                            <input name='available' type="number" step=".01" min="0" className="form-control" placeholder="Enter Points Available" value={store.getState().editGradeModal.available} onChange={this.handleChange}/>
+                            <input name='available' type="number" step=".01" min="0" className="form-control" placeholder="Points Available" value={store.getState().editGradeModal.available} onChange={this.handleChange}/>
                         </div>
                     </div>
                     <div className="form-group" style={baseStyle}>
