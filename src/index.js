@@ -125,6 +125,7 @@ class EditModalForm extends React.Component {
     }
 
     render() {
+        var dis = this.props.state.grades.length > 0;
         return(
             <div>
             <div className="modal-header">
@@ -139,7 +140,7 @@ class EditModalForm extends React.Component {
                     </div>
                     <div className="form-group">
                         <label className="control-label col-sm-2"> Average: </label>
-                        <input type="number" step=".01" className="form-control" placeholder="Enter Average" value={store.getState().editGradeModal.avg} onChange={this.handleAvg}/>
+                        <input type="number" step=".01" className="form-control" placeholder="Enter Average" value={store.getState().editGradeModal.avg} onChange={this.handleAvg} disabled={store.getState().editGradeModal.grades.length > 0}/>
                     </div>
                 </form>
             </div>
@@ -223,7 +224,8 @@ const initialGradeModal = {
     name: '',
     id: 0,
     heritage: [],
-    avg: 0
+    avg: 0,
+    grades: []
 }
 
 const editGradeModal = (state = initialGradeModal, action) => {
