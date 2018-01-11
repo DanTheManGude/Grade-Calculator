@@ -92,10 +92,17 @@ class EditModalForm extends React.Component {
         });
     }
 
-    handleAvg(event) {
+    handleRecieved(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
-            state: {...store.getState().editGradeModal,avg: event.target.value}
+            state: {...store.getState().editGradeModal,recieved: event.target.value, avg: 100*event.target.value/store.getState().editGradeModal.available}
+        });
+    }
+
+    handleAvailable(event) {
+        store.dispatch({
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,available: event.target.value, avg: 100*store.getState().editGradeModal.recieved/event.target.value}
         });
     }
 
@@ -127,6 +134,9 @@ class EditModalForm extends React.Component {
     }
 
     render() {
+        var pointsStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
+        var weightBaseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
+        
         return(
             <div>
             <div className="modal-header">
@@ -139,11 +149,17 @@ class EditModalForm extends React.Component {
                         <label className="control-label col-sm-2"> Name: </label>
                         <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
                     </div>
-                    <div className="form-group">
-                        <label className="control-label col-sm-2"> Average: </label>
-                        <input type="number" step=".01" className="form-control" placeholder="Enter Average" value={store.getState().editGradeModal.avg} onChange={this.handleAvg} disabled={store.getState().editGradeModal.grades.length > 0}/>
+                    <div style={pointsStyle}>
+                        <div className="form-group">
+                            <label className="control-label col-lg-2"> Points Recieved: </label>
+                            <input type="number" step=".01" className="form-control" placeholder="Enter Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleRecieved}/>
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label col-lg-2"> Points Available: </label>
+                            <input type="number" step=".01" className="form-control" placeholder="Enter Points Available" value={store.getState().editGradeModal.available} onChange={this.handleAvailable}/>
+                        </div>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group" style={weightBaseStyle}>
                         <label className="control-label col-sm-2"> Weight: </label>
                         <input type="number" step=".1" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleWeight}/>
                     </div>
@@ -180,7 +196,9 @@ const defaultGrade = (h) => {
         heritage: h,
         id: (new Date()).getTime()-1515569653105,
         hide: false,
-        weight: 1
+        weight: 1,
+        recieved: 100,
+        available: 100
     }
 }
 
