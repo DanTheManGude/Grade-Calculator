@@ -35,7 +35,8 @@ class Grade extends React.Component {
                         className="btn btn-primary btn-sm" onClick={() => {
                             store.dispatch({
                                 type: 'ADD',
-                                h: this.props.state.heritage.concat(this.props.state.id)
+                                h: this.props.state.heritage.concat(this.props.state.id),
+                                id: (new Date()).getTime()-1515569653105
                             })
                         }}>Add</button>
                     </li>
@@ -190,13 +191,13 @@ const calculatingAvg = (grades) => {
     return (value/weight);
 }
 
-const defaultGrade = (h) => {
+const defaultGrade = (id, h) => {
     return {
         grades: [],
         avg: 100,
         name: 'New Grade',
         heritage: h,
-        id: (new Date()).getTime()-1515569653105,
+        id,
         hide: false,
         weight: 1,
         recieved: 100,
@@ -211,12 +212,7 @@ const editingGrade = (state, h, action) => {
         }
         switch (action.type) {
             case 'ADD':
-                return {...state,grades: state.grades.concat({...state,
-                    grades: [],
-                    name: 'New Grade',
-                    heritage: action.h,
-                    id: (new Date()).getTime()-1515215358101
-                })};
+                return {...state,grades: state.grades.concat(defaultGrade(action.id, action.h))};
             case 'UPDATE_GRADE':
                 return action.state;
             case 'DELETE_GRADE':
@@ -230,7 +226,7 @@ const editingGrade = (state, h, action) => {
     return state;
 }
 
-const grade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
+const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => {
     if (['ADD', 'UPDATE_GRADE', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
         return editingGrade(state, action.h, action);
     }
