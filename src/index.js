@@ -53,7 +53,7 @@ class Grade extends React.Component {
                 <span>
                     {this.props.state.name}
                     &nbsp;&nbsp;
-                    <strong>{this.props.state.avg}</strong>
+                    <strong>{Math.round(this.props.state.avg * 100) / 100}</strong>
                     &nbsp;&nbsp;&nbsp;
                     <button className="btn btn-info btn-sm" onClick={() => {
                         store.dispatch({
@@ -94,7 +94,6 @@ class EditModalForm extends React.Component {
     }
 
     handleChange(event){
-        console.log(event.target.value);
         if (event.target.value >= 0){
             var newRecieved = store.getState().editGradeModal.recieved;
             var newAvailable = store.getState().editGradeModal.available;
