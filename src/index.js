@@ -49,7 +49,7 @@ class Grade extends React.Component {
         }
         return(
             <div>
-                <p>
+                <span>
                     {this.props.state.name}
                     &nbsp;&nbsp;
                     <strong>{this.props.state.avg}</strong>
@@ -71,7 +71,7 @@ class Grade extends React.Component {
                           </div>
                         </div>
                     </div>
-                </p>
+                </span>
                 {children}
             </div>
         );
@@ -125,7 +125,6 @@ class EditModalForm extends React.Component {
     }
 
     render() {
-        var dis = this.props.state.grades.length > 0;
         return(
             <div>
             <div className="modal-header">
