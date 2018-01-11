@@ -11,13 +11,13 @@ class Grade extends React.Component {
     constructor(props) {
         super(props);
 
-        this.setModalData = this.setModalData.bind(this);
+        this.setModalState = this.setModalState.bind(this);
     }
 
-    setModalData(event) {
+    setModalState(event) {
         store.dispatch({
-            type: 'SET_GRADE_MODAL',
-            data: this.props.state
+            type: 'UPDATE_MODAL',
+            state: this.props.state
         });
     }
 
@@ -62,7 +62,7 @@ class Grade extends React.Component {
                     }}>{hideText}</button>
                     &nbsp;&nbsp;
                     <button
-                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalData}>Edit
+                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}>Edit
                     </button>
                     <div className="modal fade" id="EditModalForm" role="dialog">
                         <div className="modal-dialog modal-sm">
@@ -87,40 +87,30 @@ class EditModalForm extends React.Component {
 
     handleName(event) {
         store.dispatch({
-            type: 'CHANGE_NAME_MODAL',
-            name: event.target.value
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,name: event.target.value}
         });
     }
 
     handleAvg(event) {
         store.dispatch({
-            type: 'CHANGE_AVG_MODAL',
-            avg: event.target.value
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,avg: event.target.value}
         });
     }
 
     handleWeight(event) {
         store.dispatch({
-            type: 'CHANGE_WEIGHT_MODAL',
-            weight: event.target.value
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,weight: event.target.value}
         });
     }
 
     handleClose(event) {
         if (event.target.innerHTML === 'Save') {
             store.dispatch({
-                type: 'CHANGE_NAME',
-                name: store.getState().editGradeModal.name,
-                h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
-            });
-            store.dispatch({
-                type: 'CHANGE_AVG',
-                avg: store.getState().editGradeModal.avg,
-                h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
-            });
-            store.dispatch({
-                type: 'CHANGE_WEIGHT',
-                weight: store.getState().editGradeModal.weight,
+                type: 'UPDATE_GRADE',
+                state: store.getState().editGradeModal,
                 h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
             });
         } else {
@@ -207,12 +197,8 @@ const editingGrade = (state, h, action) => {
                     heritage: action.h,
                     id: (new Date()).getTime()-1515215358101
                 })};
-            case 'CHANGE_AVG':
-                return {...state,avg: action.avg};
-            case 'CHANGE_NAME':
-                return {...state,name: action.name};
-            case 'CHANGE_WEIGHT':
-                return {...state,weight: action.weight};
+            case 'UPDATE_GRADE':
+                return action.state;
             case 'DELETE_GRADE':
                 return {...state,grades: state.grades.filter(g => g.id !== action.id)};
             case 'TOGGLE_HIDE':
@@ -225,7 +211,7 @@ const editingGrade = (state, h, action) => {
 }
 
 const grade = (state = {...defaultGrade([]),name:'Overall Grade'}, action) => {
-    if (['ADD', 'CHANGE_AVG', 'CHANGE_NAME', 'CHANGE_WEIGHT', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
+    if (['ADD', 'UPDATE_GRADE', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
         return editingGrade(state, action.h, action);
     }
     switch (action.type) {
@@ -251,14 +237,8 @@ const initialGradeModal = {
 
 const editGradeModal = (state = initialGradeModal, action) => {
     switch (action.type) {
-        case 'SET_GRADE_MODAL':
-            return action.data;
-        case 'CHANGE_NAME_MODAL':
-            return {...state,name: action.name};
-        case 'CHANGE_AVG_MODAL':
-            return {...state,avg: action.avg};
-        case 'CHANGE_WEIGHT_MODAL':
-            return {...state,weight: action.weight};
+        case 'UPDATE_MODAL':
+            return action.state;
         default:
             return state;
         }
