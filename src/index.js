@@ -22,18 +22,14 @@ class Grade extends React.Component {
     }
 
     render() {
-        return(
-            <div>
-                <p>
-                    {this.props.state.name}
-                    <strong> {this.props.state.avg} </strong>
-                    <button className="btn btn-info btn-sm" onClick={() => {
-                        store.dispatch({
-                            type: 'TOGGLE_HIDE',
-                            h: this.props.state.heritage.concat(this.props.state.id)
-                        })
-                    }}>{this.props.state.hide}</button>
-                </p>
+        var hideText;
+        var children;
+        if (this.props.state.hide){
+            hideText = 'Show';
+            children = null;
+        } else {
+            hideText = 'Hide';
+            children =
                 <ul>
                     <li><button
                         className="btn btn-primary btn-sm" onClick={() => {
@@ -43,22 +39,40 @@ class Grade extends React.Component {
                             })
                         }}>Add</button>
                     </li>
-                    <li><button
-                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalData}>Edit</button>
-                        <div className="modal fade" id="EditModalForm" role="dialog">
-                            <div className="modal-dialog modal-sm">
-                              <div className="modal-content">
-                                <EditModalForm state={this.props.state} />
-                              </div>
-                            </div>
-                        </div>
-                    </li>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
                             <Grade state={grade}/>
                         </li>
                     )}
                 </ul>
+            ;
+        }
+        return(
+            <div>
+                <p>
+                    {this.props.state.name}
+                    &nbsp;&nbsp;
+                    <strong>{this.props.state.avg}</strong>
+                    &nbsp;&nbsp;&nbsp;
+                    <button className="btn btn-info btn-sm" onClick={() => {
+                        store.dispatch({
+                            type: 'TOGGLE_HIDE',
+                            h: this.props.state.heritage.concat(this.props.state.id)
+                        })
+                    }}>{hideText}</button>
+                    &nbsp;&nbsp;
+                    <button
+                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalData}>Edit
+                    </button>
+                    <div className="modal fade" id="EditModalForm" role="dialog">
+                        <div className="modal-dialog modal-sm">
+                          <div className="modal-content">
+                            <EditModalForm state={this.props.state} />
+                          </div>
+                        </div>
+                    </div>
+                </p>
+                {children}
             </div>
         );
     }
@@ -132,7 +146,7 @@ class EditModalForm extends React.Component {
             <div className="modal-footer">
                 <div className="flex-container">
                   <button type="button" onClick={this.handleClose} className="btn btn-danger" data-dismiss="modal">Delete</button>
-                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" onClick={this.handleClose} className="btn btn-success" data-dismiss="modal">Save</button>
                 </div>
             </div>
