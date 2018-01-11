@@ -152,12 +152,12 @@ class EditModalForm extends React.Component {
                         <label className="control-label">Name: </label>
                         <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
                     </div>
-                    <div style={pointsStyle}>
-                        <div className="form-group">
+                    <div style={pointsStyle} className="form-group flex-container">
+                        <div className="flex-element">
                             <label className="control-label">Points Recieved: </label>
                             <input name='recieved' type="number" step=".01" min="0" className="form-control" placeholder="Enter Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleChange}/>
                         </div>
-                        <div className="form-group">
+                        <div className="flex-element">
                             <label className="control-label">Points Available: </label>
                             <input name='available' type="number" step=".01" min="0" className="form-control" placeholder="Enter Points Available" value={store.getState().editGradeModal.available} onChange={this.handleChange}/>
                         </div>
@@ -170,9 +170,9 @@ class EditModalForm extends React.Component {
             </div>
             <div className="modal-footer">
                 <div className="flex-container">
-                  <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger" data-dismiss="modal">Delete</button>
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" onClick={this.handleClose} className="btn btn-success" data-dismiss="modal">Save</button>
+                  <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" data-dismiss="modal">Delete</button>
+                  <button type="button" className="btn btn-secondary flex-element" data-dismiss="modal">Close</button>
+                  <button type="button" onClick={this.handleClose} className="btn btn-success flex-element" data-dismiss="modal">Save</button>
                 </div>
             </div>
             </div>

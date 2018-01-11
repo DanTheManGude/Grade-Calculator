@@ -14,7 +14,12 @@ body {
   width: 100%;
 }
 
-.flex-container>button {
+.flex-element {
   width: 100%;
+  margin: 0 2%;
+
+}
+
+.flex-container>button {
   margin: 0 4%;
 }
