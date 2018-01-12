@@ -6,6 +6,53 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 
+class App extends React.Component {
+    render() {
+        var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
+        return(
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                  <div className="container">
+                    <a className="navbar-brand" href="https://github.com/DanTheManGude/Grade-Calculator">Grade Calculator</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                      <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarResponsive">
+                      <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                          <a className="nav-link" href={"data:" + data + ''} download="Grades.json">Download</a>
+                        </li>
+                        <li className="nav-item">
+                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
+                        </li>
+                        <li className="nav-item">
+                          <a className="nav-link" href="https://dangude.com">Dan Gude</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+
+                <div className="container">
+                  <div className="row">
+                    <div className="col-lg-12 intro">
+                      <h2 className="mt-5">Welcome to Grade Calculator</h2>
+                      <p>
+                          A hassle free way to calculate your grade average.
+                          <br/>To get started hit the blue 'Add' button to create components that make up a grade.
+                          <br/>Hit the yellow 'Edit' button to change the grade value and name.
+                      </p>
+                      <div className="rootGrade">
+                        <Grade state={store.getState().grade} />
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+            </div>
+        );
+    }
+}
 
 class Grade extends React.Component {
     constructor(props) {
@@ -45,10 +92,9 @@ class Grade extends React.Component {
             hideText = 'Hide';
             listStyle = {};
         }
-        var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
+
         return(
             <div>
-                <a href={"data:" + data + ''} download="data.json">download JSON</a>
                 <span>
                     {this.props.state.name}
                     &nbsp;&nbsp;
@@ -279,7 +325,7 @@ const store = createStore(gradeApp);
 const render = () => {
     ReactDOM.render(
         <div className="app">
-            <Grade state={store.getState().grade} />
+            <App />
         </div>,
         document.getElementById('root')
     );

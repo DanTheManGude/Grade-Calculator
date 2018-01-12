@@ -4,9 +4,14 @@ body {
   font-family: sans-serif;
 }
 
-.app {
+.rootGrade {
     float: left;
     text-align: left;
+}
+
+.intro {
+    padding-top: 2em;
+    text-align: center;
 }
 
 .flex-container {
