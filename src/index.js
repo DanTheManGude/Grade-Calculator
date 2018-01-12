@@ -238,7 +238,7 @@ class EditModalForm extends React.Component {
     }
 
     render() {
-        var pointsStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
+        var leafStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
         var baseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
         var radioChecked=store.getState().editGradeModal.expected;
 
@@ -254,7 +254,7 @@ class EditModalForm extends React.Component {
                         <label className="control-label">Name: </label>
                         <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
                     </div>
-                    <div style={pointsStyle} className="form-group flex-container">
+                    <div style={leafStyle} className="form-group flex-container">
                         <div className="flex-element">
                             <label className="control-label">Points Recieved: </label>
                             <input name='recieved' type="number" step=".01" min="0" className="form-control" placeholder="Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleChange}/>
@@ -268,7 +268,7 @@ class EditModalForm extends React.Component {
                         <label className="control-label">Weight: </label>
                         <input name='weight' type="number" step=".01" min="0" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleChange}/>
                     </div>
-                    <div className="form-group flex-container">
+                    <div className="form-group flex-container" style={leafStyle}>
                         <label className="radio-inline flex-element">
                           <input onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/>Actual
                         </label>
