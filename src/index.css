@@ -22,7 +22,7 @@ body {
 .flex-element {
   width: 100%;
   margin: 0 2%;
-
+  text-align: center;
 }
 
 .flex-container>button {

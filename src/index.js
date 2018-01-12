@@ -130,13 +130,14 @@ class Grade extends React.Component {
             hideText = 'Hide';
             listStyle = {};
         }
-
+        var show = Math.round(this.props.state.avg * 100) / 100;
+        var showStyle = this.props.state.expected ? {fontStyle: 'italic'} : {};
         return(
             <div>
                 <span>
                     {this.props.state.name}
                     &nbsp;&nbsp;
-                    <strong>{Math.round(this.props.state.avg * 100) / 100}</strong>
+                    <strong style={showStyle}>{show}</strong>
                     &nbsp;&nbsp;&nbsp;
                     <button className="btn btn-info btn-sm" onClick={() => {
                         store.dispatch({
@@ -182,6 +183,13 @@ class EditModalForm extends React.Component {
         store.dispatch({
             type: 'UPDATE_MODAL',
             state: {...store.getState().editGradeModal,name: event.target.value}
+        });
+    }
+
+    handleRadio(event) {
+        store.dispatch({
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,expected: !store.getState().editGradeModal.expected}
         });
     }
 
@@ -232,6 +240,7 @@ class EditModalForm extends React.Component {
     render() {
         var pointsStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
         var baseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
+        var radioChecked=store.getState().editGradeModal.expected;
 
         return(
             <div>
@@ -258,6 +267,14 @@ class EditModalForm extends React.Component {
                     <div className="form-group" style={baseStyle}>
                         <label className="control-label">Weight: </label>
                         <input name='weight' type="number" step=".01" min="0" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleChange}/>
+                    </div>
+                    <div className="form-group flex-container">
+                        <label className="radio-inline flex-element">
+                          <input onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/>Actual
+                        </label>
+                        <label className="radio-inline flex-element">
+                          <input onClick={this.handleRadio} type="radio" name="optradio" checked={radioChecked}/>Expected
+                        </label>
                     </div>
                 </form>
             </div>
@@ -294,7 +311,8 @@ const defaultGrade = (id, h) => {
         hide: false,
         weight: 1,
         recieved: 100,
-        available: 100
+        available: 100,
+        expected: false
     }
 }
 
