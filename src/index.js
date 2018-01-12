@@ -7,6 +7,19 @@ import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        store.dispatch({
+            type: 'UPDATE_FILENAME',
+            fileName: event.target.value
+        });
+    }
+
     render() {
         var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
         return(
@@ -20,7 +33,7 @@ class App extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                          <a className="nav-link" href={"data:" + data + ''} download="Grades.json">Download</a>
+                            <a className="nav-link" data-toggle="modal" data-target="#DownloadModal">Download</a>
                         </li>
                         <li className="nav-item">
                           <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
@@ -32,6 +45,31 @@ class App extends React.Component {
                     </div>
                   </div>
                 </nav>
+
+                <div className="modal fade" id="DownloadModal" role="dialog">
+                  <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                      <h4 className="modal-title">Download Grades</h4>
+                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div className="modal-body">
+                        <form className="form-horizontal">
+                            <div className="form-group">
+                                <label className="control-label">Name of file: </label>
+                                <input type="text" defaultValue="MyGrades"
+                                onChange={this.handleChange} className="form-control" placeholder="Enter file name"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="modal-footer">
+                        <div className="flex-container">
+                          <a className="btn btn-outline-dark flex-element"  href={"data:" + data} download={store.getState().fileName + ".json"}>DOWNLOAD</a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+              </div>
 
                 <div className="container">
                   <div className="row">
@@ -315,9 +353,19 @@ const editGradeModal = (state = initialGradeModal, action) => {
         }
 }
 
+const fileName = (state = "MyGrades", action) => {
+    switch (action.type) {
+        case 'UPDATE_FILENAME':
+            return action.fileName;
+        default:
+            return state;
+        }
+}
+
 const gradeApp = combineReducers({
     grade,
-    editGradeModal
+    editGradeModal,
+    fileName
 });
 
 const store = createStore(gradeApp);
