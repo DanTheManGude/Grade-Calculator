@@ -12,12 +12,26 @@ class Grade extends React.Component {
         super(props);
 
         this.setModalState = this.setModalState.bind(this);
+        this.handleAdd = this.handleAdd.bind(this);
+
     }
 
     setModalState(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
             state: this.props.state
+        });
+    }
+
+    handleAdd(event) {
+        store.dispatch({
+            type: 'ADD',
+            h: this.props.state.heritage.concat(this.props.state.id),
+            id: (new Date()).getTime()-1515569653105
+        });
+        store.dispatch({
+            type: 'CALCULATE_AVG',
+            h: this.props.state.heritage.concat(this.props.state.id),
         });
     }
 
@@ -32,13 +46,7 @@ class Grade extends React.Component {
             children =
                 <ul>
                     <li><button
-                        className="btn btn-primary btn-sm" onClick={() => {
-                            store.dispatch({
-                                type: 'ADD',
-                                h: this.props.state.heritage.concat(this.props.state.id),
-                                id: (new Date()).getTime()-1515569653105
-                            })
-                        }}>Add</button>
+                        className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add</button>
                     </li>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
