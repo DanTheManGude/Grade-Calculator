@@ -136,6 +136,7 @@ class Grade extends React.Component {
             <div>
                 <span>
                     {this.props.state.name}
+                    {this.props.state.expected}
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
                     &nbsp;&nbsp;&nbsp;
@@ -293,12 +294,26 @@ class EditModalForm extends React.Component {
 const calculatingAvg = (grades) => {
     var value = 0;
     var weight = 0;
-        grades.forEach(function(g) {
-            value =  ((+(g.avg)) * (+(g.weight))) + value;
-            weight = + (g.weight) + weight;
-        });
+    grades.forEach(function(g) {
+        value =  ((+(g.avg)) * (+(g.weight))) + value;
+        weight = + (g.weight) + weight;
+    });
 
     return (value/weight);
+}
+
+const calculatingExpected = (grades) => {
+    console.log("calculatingExpected " + grades)
+    var newExpected = false;
+    grades.forEach(function(g) {
+        if (g.expected){
+            newExpected = true;
+        }
+
+    });
+
+    console.log("finished " + newExpected);
+    return newExpected;
 }
 
 const defaultGrade = (id, h) => {
@@ -345,7 +360,7 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
         case 'CALCULATE_AVG':
             if (action.h.includes(state.id) && state.grades.length > 0){
                 var newGrades = state.grades.map(g => grade(g, action));
-                return {...state,avg: calculatingAvg(newGrades), grades: newGrades};
+                return {...state,avg: calculatingAvg(newGrades), expected: calculatingExpected(newGrades), grades: newGrades};
             }
             return state;
         default:
