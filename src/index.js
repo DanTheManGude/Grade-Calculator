@@ -45,8 +45,10 @@ class Grade extends React.Component {
             hideText = 'Hide';
             listStyle = {};
         }
+        var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
         return(
             <div>
+                <a href={"data:" + data + ''} download="data.json">download JSON</a>
                 <span>
                     {this.props.state.name}
                     &nbsp;&nbsp;
