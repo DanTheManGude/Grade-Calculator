@@ -37,24 +37,13 @@ class Grade extends React.Component {
 
     render() {
         var hideText;
-        var children;
+        var listStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
         if (this.props.state.hide){
             hideText = 'Show';
-            children = null;
+            listStyle = {display: 'none'};
         } else {
             hideText = 'Hide';
-            children =
-                <ul>
-                    <li><button
-                        className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add</button>
-                    </li>
-                    {this.props.state.grades.map(grade =>
-                        <li key={grade.id}>
-                            <Grade state={grade}/>
-                        </li>
-                    )}
-                </ul>
-            ;
+            listStyle = {};
         }
         return(
             <div>
@@ -81,7 +70,16 @@ class Grade extends React.Component {
                         </div>
                     </div>
                 </span>
-                {children}
+                <ul style={listStyle}>
+                    <li><button
+                        className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add</button>
+                    </li>
+                    {this.props.state.grades.map(grade =>
+                        <li key={grade.id}>
+                            <Grade state={grade}/>
+                        </li>
+                    )}
+                </ul>
             </div>
         );
     }
