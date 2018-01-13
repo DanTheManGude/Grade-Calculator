@@ -5,18 +5,27 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
+import axios, { post } from 'axios';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
+        this.onChangeFile = this.onChangeFile.bind(this);
     }
 
     handleChange(event) {
         store.dispatch({
             type: 'UPDATE_FILENAME',
             fileName: event.target.value
+        });
+    }
+
+    onChangeFile(event) {
+        store.dispatch({
+            type: 'UPDATE_FILE',
+            file: event.target.files[0]
         });
     }
 
@@ -33,6 +42,9 @@ class App extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
+                            <a className="nav-link" data-toggle="modal" data-target="#UploadModal">Upload</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" data-toggle="modal" data-target="#DownloadModal">Download</a>
                         </li>
                         <li className="nav-item">
@@ -45,6 +57,29 @@ class App extends React.Component {
                     </div>
                   </div>
                 </nav>
+
+                <div className="modal fade" id="UploadModal" role="dialog">
+                  <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                      <h4 className="modal-title">Upload Grades</h4>
+                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div className="modal-body">
+                        <form className="form-horizontal">
+                            <div className="form-group">
+                                <input className="form-control" type="file" onChange={this.onChangeFile} />
+                            </div>
+                        </form>
+                    </div>
+                    <div className="modal-footer">
+                        <div className="flex-container">
+                            <button className="btn btn-outline-dark flex-element" data-dismiss="modal">Upload</button>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+              </div>
 
                 <div className="modal fade" id="DownloadModal" role="dialog">
                   <div className="modal-dialog modal-sm">
@@ -83,7 +118,6 @@ class App extends React.Component {
                       <div className="rootGrade">
                         <Grade state={store.getState().grade} />
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -395,10 +429,20 @@ const fileName = (state = "MyGrades", action) => {
         }
 }
 
+const file = (state = null, action) => {
+    switch (action.type) {
+        case 'UPDATE_FILE':
+            return action.file;
+        default:
+            return state;
+        }
+}
+
 const gradeApp = combineReducers({
     grade,
     editGradeModal,
-    fileName
+    fileName,
+    file
 });
 
 const store = createStore(gradeApp);
