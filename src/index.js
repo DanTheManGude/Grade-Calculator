@@ -56,7 +56,7 @@ class App extends React.Component {
             <div>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                   <div className="container">
-                    <a className="navbar-brand" href="https://github.com/DanTheManGude/Grade-Calculator">Grade Calculator</a>
+                    <a className="navbar-brand" href="http://DanTheManGude.github.io/Grade-Calculator">Grade Calculator</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>
                     </button>
