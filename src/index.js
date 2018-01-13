@@ -5,7 +5,6 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
-import axios, { post } from 'axios';
 
 class App extends React.Component {
     constructor(props) {
@@ -13,6 +12,7 @@ class App extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.onChangeFile = this.onChangeFile.bind(this);
+        this.onFileSubmit = this.onFileSubmit.bind(this);
     }
 
     handleChange(event) {
@@ -27,6 +27,27 @@ class App extends React.Component {
             type: 'UPDATE_FILE',
             file: event.target.files[0]
         });
+    }
+
+    onFileSubmit(event) {
+        var json;
+        var file = store.getState().file;
+        var fileReader = new FileReader();
+        fileReader.onload = (function (theFile) {
+            return function(e) {
+                try {
+                    json = JSON.parse(e.target.result);
+                    store.dispatch({
+                        type: 'UPLOAD_GRADE',
+                        state: json
+                    });
+                } catch (ex) {
+                    alert('JSON files created from this website only!');
+                }
+            }
+        })(file);
+        fileReader.readAsText(file);
+
     }
 
     render() {
@@ -66,15 +87,13 @@ class App extends React.Component {
                       <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
-                        <form className="form-horizontal">
-                            <div className="form-group">
-                                <input className="form-control" type="file" onChange={this.onChangeFile} />
-                            </div>
-                        </form>
+                        <div className="form-group">
+                            <input className="form-control" type="file" onChange={this.onChangeFile} />
+                        </div>
                     </div>
                     <div className="modal-footer">
                         <div className="flex-container">
-                            <button className="btn btn-outline-dark flex-element" data-dismiss="modal">Upload</button>
+                            <button accept=".json" className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.onFileSubmit}>UPLOAD</button>
                         </div>
                     </div>
                     </div>
@@ -397,6 +416,8 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
                 return {...state,avg: calculatingAvg(newGrades), expected: calculatingExpected(newGrades), grades: newGrades};
             }
             return state;
+        case 'UPLOAD_GRADE':
+            return action.state;
         default:
           return state
         }
