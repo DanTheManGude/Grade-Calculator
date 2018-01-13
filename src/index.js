@@ -63,6 +63,9 @@ class App extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
+                            <a className="nav-link" data-toggle="modal" data-target="#HintsModal">Hints</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
                         </li>
                         <li className="nav-item">
@@ -81,6 +84,27 @@ class App extends React.Component {
                     </div>
                   </div>
                 </nav>
+
+                <div className="modal fade" id="HintsModal" role="dialog">
+                  <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                          <h4 className="modal-title">Hints and How-Tos</h4>
+                          <button type="button" className="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>
+                                Hints to come, check back soon.
+                            </p>
+                        </div>
+                        <div className="modal-footer">
+                            <div className="flex-container">
+                                <button className="btn btn-outline-dark flex-element" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="modal fade" id="UploadModal" role="dialog">
                   <div className="modal-dialog modal-sm">
