@@ -10,6 +10,82 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
+        this.changeModal = this.changeModal.bind(this);
+    }
+
+    changeModal(event) {
+        store.dispatch({
+            type: 'UPDATE_MODAL_TYPE',
+            modal: event.target.id
+        });
+    }
+
+    render() {
+        return(
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                  <div className="container">
+                    <a className="navbar-brand" href="http://DanTheManGude.github.io/Grade-Calculator">Grade Calculator</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                      <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarResponsive">
+                      <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Hints</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Upload</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Download</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
+                        </li>
+                        <li className="nav-item">
+                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
+                        </li>
+                        <li className="nav-item">
+                          <a className="nav-link" href="https://dangude.com">Dan Gude</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+
+                <div className="modal fade" id="NavModal" role="dialog">
+                  <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                        <NavModal />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="container">
+                  <div className="row">
+                    <div className="col-lg-12 intro">
+                      <h2 className="mt-5">Welcome to Grade Calculator</h2>
+                      <p>
+                          A hassle free way to calculate your grade average.
+                          <br/>To get started hit the blue 'Add' button to create components that make up a grade.
+                          <br/>Hit the yellow 'Edit' button to change the grade value and name.
+                      </p>
+                      <div className="rootGrade">
+                        <Grade state={store.getState().grade} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+class NavModal extends React.Component {
+    constructor(props) {
+        super(props);
+
         this.handleChange = this.handleChange.bind(this);
         this.onChangeFile = this.onChangeFile.bind(this);
         this.onFileSubmit = this.onFileSubmit.bind(this);
@@ -47,89 +123,47 @@ class App extends React.Component {
             }
         })(file);
         fileReader.readAsText(file);
-
     }
 
     render() {
         var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
-        return(
-            <div>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                  <div className="container">
-                    <a className="navbar-brand" href="http://DanTheManGude.github.io/Grade-Calculator">Grade Calculator</a>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                      <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarResponsive">
-                      <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" data-toggle="modal" data-target="#HintsModal">Hints</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" data-toggle="modal" data-target="#UploadModal">Upload</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" data-toggle="modal" data-target="#DownloadModal">Download</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="https://dangude.com">Dan Gude</a>
-                        </li>
-                      </ul>
+        switch (store.getState().navModal) {
+            case 'Hints':
+                return (<div>
+                    <div className="modal-header">
+                      <h4 className="modal-title">Hints and How-Tos</h4>
+                      <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
-                  </div>
-                </nav>
-
-                <div className="modal fade" id="HintsModal" role="dialog">
-                  <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                          <h4 className="modal-title">Hints and How-Tos</h4>
-                          <button type="button" className="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div className="modal-body">
-                            <p>
-                                Hints to come, check back soon.
-                            </p>
-                        </div>
-                        <div className="modal-footer">
-                            <div className="flex-container">
-                                <button className="btn btn-outline-dark flex-element" data-dismiss="modal">Close</button>
-                            </div>
+                    <div className="modal-body">
+                        <p>
+                            Hints to come, check back soon.
+                        </p>
+                    </div>
+                    <div className="modal-footer">
+                        <div className="flex-container">
+                            <button className="btn btn-outline-dark flex-element" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                  </div>
-                </div>
-
-                <div className="modal fade" id="UploadModal" role="dialog">
-                  <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
+                </div>);
+            case 'Upload':
+                return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Upload Grades</h4>
                       <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
                         <div className="form-group">
-                            <input className="form-control" type="file" onChange={this.onChangeFile} />
+                            <input accept="json" className="form-control" type="file" onChange={this.onChangeFile} />
                         </div>
                     </div>
                     <div className="modal-footer">
                         <div className="flex-container">
-                            <button accept=".json" className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.onFileSubmit}>UPLOAD</button>
+                            <button className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.onFileSubmit}>UPLOAD</button>
                         </div>
                     </div>
-                    </div>
-                  </div>
-              </div>
-
-                <div className="modal fade" id="DownloadModal" role="dialog">
-                  <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
+                </div>);
+            case 'Download':
+                return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Download Grades</h4>
                       <button type="button" className="close" data-dismiss="modal">&times;</button>
@@ -148,27 +182,10 @@ class App extends React.Component {
                           <a className="btn btn-outline-dark flex-element"  href={"data:" + data} download={store.getState().fileName + ".json"}>DOWNLOAD</a>
                         </div>
                     </div>
-                    </div>
-                  </div>
-              </div>
-
-                <div className="container">
-                  <div className="row">
-                    <div className="col-lg-12 intro">
-                      <h2 className="mt-5">Welcome to Grade Calculator</h2>
-                      <p>
-                          A hassle free way to calculate your grade average.
-                          <br/>To get started hit the blue 'Add' button to create components that make up a grade.
-                          <br/>Hit the yellow 'Edit' button to change the grade value and name.
-                      </p>
-                      <div className="rootGrade">
-                        <Grade state={store.getState().grade} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        );
+                </div>);
+            default:
+                return(<div></div>);
+        }
     }
 }
 
@@ -178,7 +195,6 @@ class Grade extends React.Component {
 
         this.setModalState = this.setModalState.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
-
     }
 
     setModalState(event) {
@@ -325,47 +341,47 @@ class EditModalForm extends React.Component {
 
         return(
             <div>
-            <div className="modal-header">
-              <h4 className="modal-title">Edit Grade</h4>
-              <button type="button" className="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div className="modal-body">
-                <form className="form-horizontal">
-                    <div className="form-group">
-                        <label className="control-label">Name: </label>
-                        <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
-                    </div>
-                    <div style={leafStyle} className="form-group flex-container">
-                        <div className="flex-element">
-                            <label className="control-label">Points Recieved: </label>
-                            <input name='recieved' type="number" step=".01" min="0" className="form-control" placeholder="Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleChange}/>
-                        </div>
-                        <div className="flex-element">
-                            <label className="control-label">Points Available: </label>
-                            <input name='available' type="number" step=".01" min="0" className="form-control" placeholder="Points Available" value={store.getState().editGradeModal.available} onChange={this.handleChange}/>
-                        </div>
-                    </div>
-                    <div className="form-group" style={baseStyle}>
-                        <label className="control-label">Weight: </label>
-                        <input name='weight' type="number" step=".01" min="0" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleChange}/>
-                    </div>
-                    <div className="form-group flex-container" style={leafStyle}>
-                        <label className="radio-inline flex-element">
-                          <input onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/>Actual
-                        </label>
-                        <label className="radio-inline flex-element">
-                          <input onClick={this.handleRadio} type="radio" name="optradio" checked={radioChecked}/>Expected
-                        </label>
-                    </div>
-                </form>
-            </div>
-            <div className="modal-footer">
-                <div className="flex-container">
-                  <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" data-dismiss="modal">Delete</button>
-                  <button type="button" className="btn btn-secondary flex-element" data-dismiss="modal">Close</button>
-                  <button type="button" onClick={this.handleClose} className="btn btn-success flex-element" data-dismiss="modal">Save</button>
+                <div className="modal-header">
+                  <h4 className="modal-title">Edit Grade</h4>
+                  <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
-            </div>
+                <div className="modal-body">
+                    <form className="form-horizontal">
+                        <div className="form-group">
+                            <label className="control-label">Name: </label>
+                            <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
+                        </div>
+                        <div style={leafStyle} className="form-group flex-container">
+                            <div className="flex-element">
+                                <label className="control-label">Points Recieved: </label>
+                                <input name='recieved' type="number" step=".01" min="0" className="form-control" placeholder="Points Recieved" value={store.getState().editGradeModal.recieved} onChange={this.handleChange}/>
+                            </div>
+                            <div className="flex-element">
+                                <label className="control-label">Points Available: </label>
+                                <input name='available' type="number" step=".01" min="0" className="form-control" placeholder="Points Available" value={store.getState().editGradeModal.available} onChange={this.handleChange}/>
+                            </div>
+                        </div>
+                        <div className="form-group" style={baseStyle}>
+                            <label className="control-label">Weight: </label>
+                            <input name='weight' type="number" step=".01" min="0" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleChange}/>
+                        </div>
+                        <div className="form-group flex-container" style={leafStyle}>
+                            <label className="radio-inline flex-element">
+                              <input onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/>Actual
+                            </label>
+                            <label className="radio-inline flex-element">
+                              <input onClick={this.handleRadio} type="radio" name="optradio" checked={radioChecked}/>Expected
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div className="modal-footer">
+                    <div className="flex-container">
+                      <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" data-dismiss="modal">Delete</button>
+                      <button type="button" className="btn btn-secondary flex-element" data-dismiss="modal">Close</button>
+                      <button type="button" onClick={this.handleClose} className="btn btn-success flex-element" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -383,16 +399,13 @@ const calculatingAvg = (grades) => {
 }
 
 const calculatingExpected = (grades) => {
-    console.log("calculatingExpected " + grades)
     var newExpected = false;
     grades.forEach(function(g) {
         if (g.expected){
             newExpected = true;
         }
-
     });
 
-    console.log("finished " + newExpected);
     return newExpected;
 }
 
@@ -486,11 +499,21 @@ const file = (state = null, action) => {
         }
 }
 
+const navModal = (state = null, action) => {
+    switch (action.type) {
+        case 'UPDATE_MODAL_TYPE':
+            return action.modal;
+        default:
+            return state;
+        }
+}
+
 const gradeApp = combineReducers({
     grade,
     editGradeModal,
     fileName,
-    file
+    file,
+    navModal
 });
 
 const store = createStore(gradeApp);
