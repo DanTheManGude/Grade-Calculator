@@ -290,6 +290,20 @@ class EditModalForm extends React.Component {
         });
     }
 
+    handleKind(event) {
+        store.dispatch({
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,percent: !store.getState().editGradeModal.percent}
+        });
+    }
+
+    handleLetter(event) {
+        store.dispatch({
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,letter: !store.getState().editGradeModal.letter}
+        });
+    }
+
     handleChange(event){
         if (event.target.value >= 0){
             var newRecieved = store.getState().editGradeModal.recieved;
@@ -337,7 +351,10 @@ class EditModalForm extends React.Component {
     render() {
         var leafStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
         var baseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
-        var radioChecked=store.getState().editGradeModal.expected;
+        var GPAStyle = store.getState().editGradeModal.percent ? {display: 'none'} : {};
+        var radioChecked = store.getState().editGradeModal.expected;
+        var percentChecked = store.getState().editGradeModal.percent;
+        var letterChecked = store.getState().editGradeModal.letter;
 
         return(
             <div>
@@ -350,6 +367,22 @@ class EditModalForm extends React.Component {
                         <div className="form-group">
                             <label className="control-label">Name: </label>
                             <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
+                        </div>
+                        <div className="form-group flex-container">
+                            <label className="radio-inline flex-element">
+                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={percentChecked}/>Percentage
+                            </label>
+                            <label className="radio-inline flex-element">
+                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={!percentChecked}/>GPA
+                            </label>
+                        </div>
+                        <div className="form-group flex-container" style={GPAStyle}>
+                            <label className="radio-inline flex-element">
+                              <input onClick={this.handleLetter} type="radio" name="letterradio" checked={letterChecked}/>Letter
+                            </label>
+                            <label className="radio-inline flex-element">
+                              <input onClick={this.handleLetter} type="radio" name="letterradio" checked={!letterChecked}/>4.0 scale
+                            </label>
                         </div>
                         <div style={leafStyle} className="form-group flex-container">
                             <div className="flex-element">
@@ -420,7 +453,9 @@ const defaultGrade = (id, h) => {
         weight: 1,
         recieved: 100,
         available: 100,
-        expected: false
+        expected: false,
+        percent: true,
+        letter: true
     }
 }
 
