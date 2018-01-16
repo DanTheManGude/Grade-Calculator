@@ -32,7 +32,7 @@ class App extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Hints</a>
+                            <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Help</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Upload</a>
@@ -135,6 +135,14 @@ class NavModal extends React.Component {
                       <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
+                        <div className="flex-container">
+                            <button  data-dismiss="modal" className="btn btn-outline-primary btn-sm flex-element" onClick={() => {
+                                store.dispatch({
+                                    type: 'UPLOAD_GRADE',
+                                    state: require('./ExampleGrades.json')
+                                })
+                            }}>Set to example grades</button>
+                        </div>
                         <p>
                             Hints to come, check back soon.
                         </p>
