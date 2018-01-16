@@ -372,6 +372,14 @@ class EditModalForm extends React.Component {
         });
     }
 
+    //toggles the hide letter state
+    handleLetter(event) {
+        store.dispatch({
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,letterHide: !store.getState().editGradeModal.letterHide}
+        });
+    }
+
     //updates the state of the modal with the changing points feilds and weight
     handleChange(event){
         //checking to reject negative numbers
@@ -429,6 +437,16 @@ class EditModalForm extends React.Component {
         var baseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
         var radioChecked = store.getState().editGradeModal.expected;
         var numericChecked = store.getState().editGradeModal.numeric;
+        var letterStyle = numericChecked ? {display: 'none'} : {};
+        var letterText;
+        var letterFormStyle;
+        if (store.getState().editGradeModal.letterHide){
+            letterText = "Edit Letter Scale";
+            letterFormStyle = {display: 'none'};
+        } else {
+            letterText = "Hide Letter Scale";
+            letterFormStyle = {};
+        }
 
         return(
             <div>
@@ -451,6 +469,14 @@ class EditModalForm extends React.Component {
                             <label className="radio-inline flex-element">
                               <input onClick={this.handleKind} type="radio" name="kindradio" checked={!numericChecked}/>Letter
                             </label>
+                        </div>
+                        {/*edit letter scale button*/}
+                        <div className="form-group flex-container">
+                          <button style={letterStyle} type="button" onClick={this.handleLetter} className="btn btn-outline-info flex-element">{letterText}</button>
+                        </div>
+                        {/*letter scale form*/}
+                        <div className="form-group" style={letterFormStyle}>
+                            <p>letter form</p>
                         </div>
                         {/*points forms*/}
                         <div style={leafStyle} className="form-group flex-container">
@@ -563,7 +589,8 @@ const defaultGrade = (id, h) => {
         recieved: 100,
         available: 100,
         expected: false,
-        numeric: true
+        numeric: true,
+        letterHide: true
     }
 }
 
