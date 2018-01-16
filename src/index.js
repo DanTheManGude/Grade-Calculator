@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import Component from 'react';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 
+//main class that encompesses the entire application
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +13,7 @@ class App extends React.Component {
         this.changeModal = this.changeModal.bind(this);
     }
 
+    //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
     changeModal(event) {
         store.dispatch({
             type: 'UPDATE_MODAL_TYPE',
@@ -23,6 +24,7 @@ class App extends React.Component {
     render() {
         return(
             <div>
+                {/*bootstrap navbar*/}
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                   <div className="container">
                     <a className="navbar-brand" href="http://DanTheManGude.github.io/Grade-Calculator">Grade Calculator</a>
@@ -31,21 +33,27 @@ class App extends React.Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ml-auto">
+                        {/*opens a modal with helpful how-tos*/}
                         <li className="nav-item">
                             <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Help</a>
                         </li>
+                        {/*opens a modal to upload a previouslly downloaded grade*/}
                         <li className="nav-item">
                             <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Upload</a>
                         </li>
+                        {/*opens a modal to download the current grade structure*/}
                         <li className="nav-item">
                             <a className="nav-link" id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Download</a>
                         </li>
+                        {/*mail to link to get in contact with me*/}
                         <li className="nav-item">
                             <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
                         </li>
+                        {/*Github repo where this project can be found*/}
                         <li className="nav-item">
                           <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
                         </li>
+                        {/*my main homepage*/}
                         <li className="nav-item">
                           <a className="nav-link" href="https://dangude.com">Dan Gude</a>
                         </li>
@@ -54,6 +62,7 @@ class App extends React.Component {
                   </div>
                 </nav>
 
+                {/*outershell for the modal created by any of the link in the nav bar*/}
                 <div className="modal fade" id="NavModal" role="dialog">
                   <div className="modal-dialog modal-sm">
                     <div className="modal-content">
@@ -62,15 +71,18 @@ class App extends React.Component {
                   </div>
                 </div>
 
+                {/*main body of the page*/}
                 <div className="container">
                   <div className="row">
                     <div className="col-lg-12 intro">
                       <h2 className="mt-5">Welcome to Grade Calculator</h2>
+                      {/*into blurb and a quick get started instructions*/}
                       <p>
                           A hassle free way to calculate your grade average.
                           <br/>To get started hit the blue 'Add' button to create components that make up a grade.
                           <br/>Hit the yellow 'Edit' button to change the grade value and name.
                       </p>
+                      {/*the base grade which all other grade items exist in*/}
                       <div className="rootGrade">
                         <Grade state={store.getState().grade} />
                       </div>
@@ -82,6 +94,7 @@ class App extends React.Component {
     }
 }
 
+//modal component created from one of the nav bar links
 class NavModal extends React.Component {
     constructor(props) {
         super(props);
@@ -91,6 +104,7 @@ class NavModal extends React.Component {
         this.onFileSubmit = this.onFileSubmit.bind(this);
     }
 
+    //updates a piece of state that keeps track of the desired filename entered
     handleChange(event) {
         store.dispatch({
             type: 'UPDATE_FILENAME',
@@ -98,6 +112,7 @@ class NavModal extends React.Component {
         });
     }
 
+    //updates a piece of state that holds the actual file uploaded
     onChangeFile(event) {
         store.dispatch({
             type: 'UPDATE_FILE',
@@ -105,6 +120,7 @@ class NavModal extends React.Component {
         });
     }
 
+    //takes the file stored, extracts the data, and sets the rootgrade to the data
     onFileSubmit(event) {
         var json;
         var file = store.getState().file;
@@ -126,7 +142,7 @@ class NavModal extends React.Component {
     }
 
     render() {
-        var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
+        //determines which content the modal should be filled with based on which linked provoked it
         switch (store.getState().navModal) {
             case 'Hints':
                 return (<div>
@@ -136,6 +152,7 @@ class NavModal extends React.Component {
                     </div>
                     <div className="modal-body">
                         <div className="flex-container">
+                            {/*button to set the root grade to an example grade*/}
                             <button  data-dismiss="modal" className="btn btn-outline-primary btn-sm flex-element" onClick={() => {
                                 store.dispatch({
                                     type: 'UPLOAD_GRADE',
@@ -143,6 +160,7 @@ class NavModal extends React.Component {
                                 })
                             }}>Set to example grades</button>
                         </div>
+                        {/*various how-tos on how to use and navigate the application as a user*/}
                         <p>
                             Hints to come, check back soon.
                         </p>
@@ -160,10 +178,13 @@ class NavModal extends React.Component {
                       <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
+                        <h6>FILES FROM THIS SITE ONLY</h6>
+                        {/*form for the user to select a file from their computer*/}
                         <div className="form-group">
                             <input accept="json" className="form-control" type="file" onChange={this.onChangeFile} />
                         </div>
                     </div>
+                    {/*activates the funtion to upload the file*/}
                     <div className="modal-footer">
                         <div className="flex-container">
                             <button className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.onFileSubmit}>UPLOAD</button>
@@ -171,6 +192,7 @@ class NavModal extends React.Component {
                     </div>
                 </div>);
             case 'Download':
+                var data = ("text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.getState().grade)));
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Download Grades</h4>
@@ -178,6 +200,7 @@ class NavModal extends React.Component {
                     </div>
                     <div className="modal-body">
                         <form className="form-horizontal">
+                            {/*text form to type the desired name of the file of the download*/}
                             <div className="form-group">
                                 <label className="control-label">Name of file: </label>
                                 <input type="text" defaultValue={store.getState().fileName}
@@ -186,6 +209,7 @@ class NavModal extends React.Component {
                         </form>
                     </div>
                     <div className="modal-footer">
+                        {/*dowloads the json of the root grade to the user's computer*/}
                         <div className="flex-container">
                           <a className="btn btn-outline-dark flex-element"  href={"data:" + data} download={store.getState().fileName + ".json"}>DOWNLOAD</a>
                         </div>
@@ -197,6 +221,7 @@ class NavModal extends React.Component {
     }
 }
 
+//component that represents a single grade item as well as recursivly renders more Grades
 class Grade extends React.Component {
     constructor(props) {
         super(props);
@@ -205,25 +230,29 @@ class Grade extends React.Component {
         this.handleAdd = this.handleAdd.bind(this);
     }
 
+    /*sets a piece of state with what the current state of this grade is
+        in order for the modal actions to change that rather than this grade directly*/
     setModalState(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
             state: this.props.state
         });
     }
-
+    //provokes the action to create a new grade item
     handleAdd(event) {
         store.dispatch({
             type: 'ADD',
             h: this.props.state.heritage.concat(this.props.state.id),
             id: (new Date()).getTime()-1515569653105
         });
+        //calculate the average with the new grade incorperated
         store.dispatch({
             type: 'CALCULATE_AVG',
             h: this.props.state.heritage.concat(this.props.state.id),
         });
     }
 
+    //returns the appropriate letter grade given the gpa on a 4.0 scale
     findGPA(gpa){
         switch (gpa) {
             case 4:
@@ -250,8 +279,9 @@ class Grade extends React.Component {
     }
 
     render() {
+        {/*checks hiding toggle state and changes values according*/}
         var hideText;
-        var listStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
+        var listStyle;
         if (this.props.state.hide){
             hideText = 'Show';
             listStyle = {display: 'none'};
@@ -259,7 +289,9 @@ class Grade extends React.Component {
             hideText = 'Hide';
             listStyle = {};
         }
+        {/*value to represent the value of the grade, kind is determined by a toggle*/}
         var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
+        {/*determines if the current grade needs to be signified as expected*/}
         var showStyle = this.props.state.expected ? {fontStyle: 'italic'} : {};
         return(
             <div>
@@ -268,6 +300,7 @@ class Grade extends React.Component {
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
                     &nbsp;&nbsp;&nbsp;
+                    {/*toggles the hiding of all of the children of the current grade*/}
                     <button className="btn btn-info btn-sm" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
@@ -275,13 +308,16 @@ class Grade extends React.Component {
                         })
                     }}>{hideText}</button>
                     &nbsp;&nbsp;
+                    {/*provoks the addition of a new grade as a child of the current*/}
                     <button
                         className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add
                     </button>
                     &nbsp;&nbsp;
+                    {/*brings up the edit modal*/}
                     <button
                         className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}>Edit
                     </button>
+                    {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModalForm" role="dialog">
                         <div className="modal-dialog modal-sm">
                           <div className="modal-content">
@@ -290,9 +326,11 @@ class Grade extends React.Component {
                         </div>
                     </div>
                 </span>
+                {/*list of the children grades*/}
                 <ul style={listStyle}>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
+                            {/*passes the state of child to the component as a prop*/}
                             <Grade state={grade}/>
                         </li>
                     )}
@@ -302,6 +340,7 @@ class Grade extends React.Component {
     }
 }
 
+{/*component to handle the editing of the grade which this lives in*/}
 class EditModalForm extends React.Component {
     constructor(props) {
         super(props);
@@ -309,6 +348,7 @@ class EditModalForm extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
+    //updates the state of the modal with the changing name
     handleName(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
@@ -316,6 +356,7 @@ class EditModalForm extends React.Component {
         });
     }
 
+    //toggles the expected or given
     handleRadio(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
@@ -323,6 +364,7 @@ class EditModalForm extends React.Component {
         });
     }
 
+    //toggles the numeric or letter kind
     handleKind(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
@@ -330,7 +372,9 @@ class EditModalForm extends React.Component {
         });
     }
 
+    //updates the state of the modal with the changing points feilds and weight
     handleChange(event){
+        //checking to reject negative numbers
         if (event.target.value >= 0){
             var newRecieved = store.getState().editGradeModal.recieved;
             var newAvailable = store.getState().editGradeModal.available;
@@ -354,20 +398,25 @@ class EditModalForm extends React.Component {
         }
     }
 
+    //method called whenever the modal is being closed
     handleClose(event) {
+        //when the save button initiated the close
         if (event.target.id === 'Save') {
+            //transfers all of the changes being stored in the modal's state to the grade's state
             store.dispatch({
                 type: 'UPDATE_GRADE',
                 state: store.getState().editGradeModal,
                 h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
             });
         } else if ((event.target.id === 'Delete')){
+            //deletes this grade
             store.dispatch({
                 type: 'DELETE_GRADE',
                 h: store.getState().editGradeModal.heritage,
                 id: store.getState().editGradeModal.id
             });
         }
+        //either way calculate the average after the changes are done
         store.dispatch({
             type: 'CALCULATE_AVG',
             h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
@@ -375,6 +424,7 @@ class EditModalForm extends React.Component {
     }
 
     render() {
+        //used to hide certain elements
         var leafStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
         var baseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
         var radioChecked = store.getState().editGradeModal.expected;
@@ -388,10 +438,12 @@ class EditModalForm extends React.Component {
                 </div>
                 <div className="modal-body">
                     <form className="form-horizontal">
+                        {/*Edit name text form*/}
                         <div className="form-group">
                             <label className="control-label">Name: </label>
                             <input type="text" className="form-control" placeholder="Enter name" value={store.getState().editGradeModal.name} onChange={this.handleName}/>
                         </div>
+                        {/*kind radio buttons*/}
                         <div className="form-group flex-container">
                             <label className="radio-inline flex-element">
                               <input onClick={this.handleKind} type="radio" name="kindradio" checked={numericChecked}/>Numeric
@@ -400,6 +452,7 @@ class EditModalForm extends React.Component {
                               <input onClick={this.handleKind} type="radio" name="kindradio" checked={!numericChecked}/>Letter
                             </label>
                         </div>
+                        {/*points forms*/}
                         <div style={leafStyle} className="form-group flex-container">
                             <div className="flex-element">
                                 <label className="control-label">Points Recieved: </label>
@@ -410,10 +463,12 @@ class EditModalForm extends React.Component {
                                 <input name='available' type="number" step=".01" min="0" className="form-control" placeholder="Points Available" value={store.getState().editGradeModal.available} onChange={this.handleChange}/>
                             </div>
                         </div>
+                        {/*weight form*/}
                         <div className="form-group" style={baseStyle}>
                             <label className="control-label">Weight: </label>
                             <input name='weight' type="number" step=".01" min="0" className="form-control" placeholder="Enter Weight" value={store.getState().editGradeModal.weight} onChange={this.handleChange}/>
                         </div>
+                        {/*actual or expected radio buttons*/}
                         <div className="form-group flex-container" style={leafStyle}>
                             <label className="radio-inline flex-element">
                               <input onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/>Actual
@@ -425,6 +480,7 @@ class EditModalForm extends React.Component {
                     </form>
                 </div>
                 <div className="modal-footer">
+                    {/*delete, close and save buttons*/}
                     <div className="flex-container">
                       <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" id="Delete" data-dismiss="modal">Delete</button>
                       <button type="button" className="btn btn-secondary flex-element" data-dismiss="modal">Close</button>
@@ -436,6 +492,7 @@ class EditModalForm extends React.Component {
     }
 }
 
+//given an array of grades, returns an average of all of the grades
 const calculatingAvg = (grades, numeric) => {
     var value = 0;
     var weight = 0;
@@ -445,6 +502,7 @@ const calculatingAvg = (grades, numeric) => {
     });
     value = (value/weight);
 
+    //converts the percentage to the apropiate GPA points if desired
     if (numeric) {
         return value;
     }
@@ -480,6 +538,7 @@ const calculatingAvg = (grades, numeric) => {
     }
 }
 
+//calcualates if any of the children recusivly is expected
 const calculatingExpected = (grades) => {
     var newExpected = false;
     grades.forEach(function(g) {
@@ -491,6 +550,7 @@ const calculatingExpected = (grades) => {
     return newExpected;
 }
 
+//starting values for a grade item
 const defaultGrade = (id, h) => {
     return {
         grades: [],
@@ -507,6 +567,7 @@ const defaultGrade = (id, h) => {
     }
 }
 
+//recursivly finds the desired grade item starting with the root grade, then applies the dispatched actions
 const editingGrade = (state, h, action) => {
     if (state.id === h[0]) {
         if (h.length > 1) {
@@ -528,6 +589,7 @@ const editingGrade = (state, h, action) => {
     return state;
 }
 
+//reducer for the grade states,
 const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => {
     if (['ADD', 'UPDATE_GRADE', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
         return editingGrade(state, action.h, action);
@@ -546,6 +608,7 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
         }
 }
 
+//default values for the Grade modal
 const initialGradeModal = {
     name: '',
     id: 0,
@@ -555,6 +618,7 @@ const initialGradeModal = {
     weight: 0
 }
 
+//reducer for the editing grade modal
 const editGradeModal = (state = initialGradeModal, action) => {
     switch (action.type) {
         case 'UPDATE_MODAL':
@@ -564,6 +628,7 @@ const editGradeModal = (state = initialGradeModal, action) => {
         }
 }
 
+//reducer to handle the changing filename of the download
 const fileName = (state = "MyGrades", action) => {
     switch (action.type) {
         case 'UPDATE_FILENAME':
@@ -573,6 +638,7 @@ const fileName = (state = "MyGrades", action) => {
         }
 }
 
+//reducer for the uploaded file
 const file = (state = null, action) => {
     switch (action.type) {
         case 'UPDATE_FILE':
@@ -582,6 +648,7 @@ const file = (state = null, action) => {
         }
 }
 
+//reducer for which modal the nav bar links activated
 const navModal = (state = null, action) => {
     switch (action.type) {
         case 'UPDATE_MODAL_TYPE':
@@ -591,6 +658,7 @@ const navModal = (state = null, action) => {
         }
 }
 
+//main reducer
 const gradeApp = combineReducers({
     grade,
     editGradeModal,
@@ -599,8 +667,10 @@ const gradeApp = combineReducers({
     navModal
 });
 
+//redux store
 const store = createStore(gradeApp);
 
+//root render of the application
 const render = () => {
     ReactDOM.render(
         <div className="app">
@@ -610,6 +680,7 @@ const render = () => {
     );
 };
 
+//linking the store to rendering the application
 store.subscribe(render);
 render();
 
