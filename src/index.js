@@ -279,7 +279,7 @@ class Grade extends React.Component {
     }
 
     render() {
-        {/*checks hiding toggle state and changes values according*/}
+        //checks hiding toggle state and changes values according
         var hideText;
         var listStyle;
         if (this.props.state.hide){
@@ -289,9 +289,9 @@ class Grade extends React.Component {
             hideText = 'Hide';
             listStyle = {};
         }
-        {/*value to represent the value of the grade, kind is determined by a toggle*/}
+        //value to represent the value of the grade, kind is determined by a toggle
         var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
-        {/*determines if the current grade needs to be signified as expected*/}
+        //determines if the current grade needs to be signified as expected
         var showStyle = this.props.state.expected ? {fontStyle: 'italic'} : {};
         return(
             <div>
@@ -340,7 +340,7 @@ class Grade extends React.Component {
     }
 }
 
-{/*component to handle the editing of the grade which this lives in*/}
+//component to handle the editing of the grade which this lives in
 class EditModalForm extends React.Component {
     constructor(props) {
         super(props);
