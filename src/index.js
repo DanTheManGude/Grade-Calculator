@@ -172,7 +172,7 @@ class NavModal extends React.Component {
                         <form className="form-horizontal">
                             <div className="form-group">
                                 <label className="control-label">Name of file: </label>
-                                <input type="text" defaultValue="MyGrades"
+                                <input type="text" defaultValue={store.getState().fileName}
                                 onChange={this.handleChange} className="form-control" placeholder="Enter file name"/>
                             </div>
                         </form>
@@ -216,6 +216,31 @@ class Grade extends React.Component {
         });
     }
 
+    findGPA(gpa){
+        switch (gpa) {
+            case 4:
+                return 'A';
+            case 3.67:
+                return 'A-';
+            case 3.33:
+                return 'B+';
+            case 3:
+                return 'B';
+            case 2.67:
+                return 'B-';
+            case 2.33:
+                return 'C+';
+            case 2:
+                return 'C';
+            case 1.67:
+                return 'C-';
+            case 1:
+                return 'D';
+            default:
+                return 'F';
+        }
+    }
+
     render() {
         var hideText;
         var listStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
@@ -226,13 +251,12 @@ class Grade extends React.Component {
             hideText = 'Hide';
             listStyle = {};
         }
-        var show = Math.round(this.props.state.avg * 100) / 100;
+        var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
         var showStyle = this.props.state.expected ? {fontStyle: 'italic'} : {};
         return(
             <div>
                 <span>
                     {this.props.state.name}
-                    {this.props.state.expected}
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
                     &nbsp;&nbsp;&nbsp;
@@ -242,6 +266,10 @@ class Grade extends React.Component {
                             h: this.props.state.heritage.concat(this.props.state.id)
                         })
                     }}>{hideText}</button>
+                    &nbsp;&nbsp;
+                    <button
+                        className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add
+                    </button>
                     &nbsp;&nbsp;
                     <button
                         className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}>Edit
@@ -255,9 +283,6 @@ class Grade extends React.Component {
                     </div>
                 </span>
                 <ul style={listStyle}>
-                    <li><button
-                        className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add</button>
-                    </li>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
                             <Grade state={grade}/>
@@ -293,14 +318,7 @@ class EditModalForm extends React.Component {
     handleKind(event) {
         store.dispatch({
             type: 'UPDATE_MODAL',
-            state: {...store.getState().editGradeModal,percent: !store.getState().editGradeModal.percent}
-        });
-    }
-
-    handleLetter(event) {
-        store.dispatch({
-            type: 'UPDATE_MODAL',
-            state: {...store.getState().editGradeModal,letter: !store.getState().editGradeModal.letter}
+            state: {...store.getState().editGradeModal,numeric: !store.getState().editGradeModal.numeric}
         });
     }
 
@@ -329,13 +347,13 @@ class EditModalForm extends React.Component {
     }
 
     handleClose(event) {
-        if (event.target.innerHTML === 'Save') {
+        if (event.target.id === 'Save') {
             store.dispatch({
                 type: 'UPDATE_GRADE',
                 state: store.getState().editGradeModal,
                 h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
             });
-        } else {
+        } else if ((event.target.id === 'Delete')){
             store.dispatch({
                 type: 'DELETE_GRADE',
                 h: store.getState().editGradeModal.heritage,
@@ -344,17 +362,15 @@ class EditModalForm extends React.Component {
         }
         store.dispatch({
             type: 'CALCULATE_AVG',
-            h: store.getState().editGradeModal.heritage
+            h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
         });
     }
 
     render() {
         var leafStyle = store.getState().editGradeModal.grades.length > 0 ? {display: 'none'} : {};
         var baseStyle = store.getState().editGradeModal.id === store.getState().grade.id ? {display: 'none'} : {};
-        var GPAStyle = store.getState().editGradeModal.percent ? {display: 'none'} : {};
         var radioChecked = store.getState().editGradeModal.expected;
-        var percentChecked = store.getState().editGradeModal.percent;
-        var letterChecked = store.getState().editGradeModal.letter;
+        var numericChecked = store.getState().editGradeModal.numeric;
 
         return(
             <div>
@@ -370,18 +386,10 @@ class EditModalForm extends React.Component {
                         </div>
                         <div className="form-group flex-container">
                             <label className="radio-inline flex-element">
-                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={percentChecked}/>Percentage
+                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={numericChecked}/>Numeric
                             </label>
                             <label className="radio-inline flex-element">
-                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={!percentChecked}/>GPA
-                            </label>
-                        </div>
-                        <div className="form-group flex-container" style={GPAStyle}>
-                            <label className="radio-inline flex-element">
-                              <input onClick={this.handleLetter} type="radio" name="letterradio" checked={letterChecked}/>Letter
-                            </label>
-                            <label className="radio-inline flex-element">
-                              <input onClick={this.handleLetter} type="radio" name="letterradio" checked={!letterChecked}/>4.0 scale
+                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={!numericChecked}/>Letter
                             </label>
                         </div>
                         <div style={leafStyle} className="form-group flex-container">
@@ -410,9 +418,9 @@ class EditModalForm extends React.Component {
                 </div>
                 <div className="modal-footer">
                     <div className="flex-container">
-                      <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" data-dismiss="modal">Delete</button>
+                      <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" id="Delete" data-dismiss="modal">Delete</button>
                       <button type="button" className="btn btn-secondary flex-element" data-dismiss="modal">Close</button>
-                      <button type="button" onClick={this.handleClose} className="btn btn-success flex-element" data-dismiss="modal">Save</button>
+                      <button type="button" onClick={this.handleClose} className="btn btn-success flex-element" id="Save" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>
@@ -420,15 +428,48 @@ class EditModalForm extends React.Component {
     }
 }
 
-const calculatingAvg = (grades) => {
+const calculatingAvg = (grades, numeric) => {
     var value = 0;
     var weight = 0;
     grades.forEach(function(g) {
         value =  ((+(g.avg)) * (+(g.weight))) + value;
         weight = + (g.weight) + weight;
     });
+    value = (value/weight);
 
-    return (value/weight);
+    if (numeric) {
+        return value;
+    }
+    else if (value >= 92.5) {
+        return 4.0
+    }
+    else if (value >= 89.5) {
+        return 3.67
+    }
+    else if (value >= 86.5) {
+        return 3.33
+    }
+    else if (value >= 82.5) {
+        return 3.0
+    }
+    else if (value >= 79.5) {
+        return 2.67
+    }
+    else if (value >= 76.5) {
+        return 2.33
+    }
+    else if (value >= 72.5) {
+        return 2.0
+    }
+    else if (value >= 69.5) {
+        return 1.67
+    }
+    else if (value >= 64.5) {
+        return 1.0
+    }
+    else {
+        return 0
+    }
 }
 
 const calculatingExpected = (grades) => {
@@ -454,8 +495,7 @@ const defaultGrade = (id, h) => {
         recieved: 100,
         available: 100,
         expected: false,
-        percent: true,
-        letter: true
+        numeric: true
     }
 }
 
@@ -488,7 +528,7 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
         case 'CALCULATE_AVG':
             if (action.h.includes(state.id) && state.grades.length > 0){
                 var newGrades = state.grades.map(g => grade(g, action));
-                return {...state,avg: calculatingAvg(newGrades), expected: calculatingExpected(newGrades), grades: newGrades};
+                return {...state,avg: calculatingAvg(newGrades, state.numeric), expected: calculatingExpected(newGrades), grades: newGrades};
             }
             return state;
         case 'UPLOAD_GRADE':
