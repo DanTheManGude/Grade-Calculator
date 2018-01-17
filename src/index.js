@@ -291,7 +291,7 @@ class Grade extends React.Component {
             listStyle = {display: 'none'};
         } else {
             hideText = <i className="fa fa-caret-down" aria-hidden="true"></i>;
-            listStyle = {};
+            listStyle = {listStyleType: 'none'};
         }
         //value to represent the value of the grade, kind is determined by a toggle
         var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
