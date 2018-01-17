@@ -35,27 +35,27 @@ class App extends React.Component {
                       <ul className="navbar-nav ml-auto">
                         {/*opens a modal with helpful how-tos*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Help</a>
+                            <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
                         {/*opens a modal to upload a previouslly downloaded grade*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Upload</a>
+                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-upload" aria-hidden="true"></i> Upload</a>
                         </li>
                         {/*opens a modal to download the current grade structure*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Download</a>
+                            <a className="nav-link" id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-download" aria-hidden="true"></i> Download</a>
                         </li>
                         {/*Github repo where this project can be found*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
+                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator"><i className="fa fa-code" aria-hidden="true"></i> Source</a>
                         </li>
                         {/*feedback form*/}
                         <li className="nav-item">
-                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1">Feedback</a>
+                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1"><i className="fa fa-paper-plane" aria-hidden="true"></i> Feedback</a>
                         </li>
                         {/*mail to link to get in contact with me*/}
                         <li className="nav-item">
-                            <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
+                            <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact"><i className="fa fa-envelope" aria-hidden="true"></i> Contact</a>
                         </li>
                         {/*my main homepage*/}
                         <li className="nav-item">
@@ -287,10 +287,10 @@ class Grade extends React.Component {
         var hideText;
         var listStyle;
         if (this.props.state.hide){
-            hideText = 'Show';
+            hideText = <i className="fa fa-caret-right" aria-hidden="true"></i>;
             listStyle = {display: 'none'};
         } else {
-            hideText = 'Hide';
+            hideText = <i className="fa fa-caret-down" aria-hidden="true"></i>;
             listStyle = {};
         }
         //value to represent the value of the grade, kind is determined by a toggle
@@ -300,21 +300,19 @@ class Grade extends React.Component {
         return(
             <div>
                 <span>
-                    {this.props.state.name}
-                    &nbsp;&nbsp;
-                    <strong style={showStyle}>{show}</strong>
-                    &nbsp;&nbsp;&nbsp;
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button className="btn btn-info btn-sm" onClick={() => {
+                    <button className="btn btn-text btn-sm" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)
                         })
                     }}>{hideText}</button>
+                    {this.props.state.name}
                     &nbsp;&nbsp;
+                    <strong style={showStyle}>{show}</strong>
                     {/*brings up the edit modal*/}
                     <button
-                        className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}>Edit
+                        className="btn btn-text" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i class="fa fa-cogs fa-lg" aria-hidden="true"></i>
                     </button>
                     {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModalForm" role="dialog">
@@ -330,7 +328,7 @@ class Grade extends React.Component {
                     <li>
                         {/*provoks the addition of a new grade as a child of the current*/}
                         <button
-                            className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add
+                            className="btn btn-text" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                         </button>
                     </li>
                     {this.props.state.grades.map(grade =>
