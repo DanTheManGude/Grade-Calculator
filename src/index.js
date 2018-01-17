@@ -45,13 +45,17 @@ class App extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}>Download</a>
                         </li>
-                        {/*mail to link to get in contact with me*/}
-                        <li className="nav-item">
-                            <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
-                        </li>
                         {/*Github repo where this project can be found*/}
                         <li className="nav-item">
                           <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator">Source</a>
+                        </li>
+                        {/*feedback form*/}
+                        <li className="nav-item">
+                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1">Feedback</a>
+                        </li>
+                        {/*mail to link to get in contact with me*/}
+                        <li className="nav-item">
+                            <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact">Contact</a>
                         </li>
                         {/*my main homepage*/}
                         <li className="nav-item">
