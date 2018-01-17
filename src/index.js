@@ -296,7 +296,7 @@ class Grade extends React.Component {
         //value to represent the value of the grade, kind is determined by a toggle
         var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
         //determines if the current grade needs to be signified as expected
-        var showStyle = this.props.state.expected ? {fontStyle: 'italic'} : {};
+        var showStyle = this.props.state.expected ? {backgroundColor: '#ffc107'} : {};
         return(
             <div>
                 <span>
@@ -314,7 +314,7 @@ class Grade extends React.Component {
                     <ins>[{this.props.state.weight}]</ins>
                     {/*brings up the edit modal*/}
                     <button
-                        className="btn btn-text" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i class="fa fa-cogs fa-lg" aria-hidden="true"></i>
+                        className="btn btn-text" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i className="fa fa-cogs fa-lg" aria-hidden="true"></i>
                     </button>
                     {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModalForm" role="dialog">
