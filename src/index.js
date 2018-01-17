@@ -312,11 +312,6 @@ class Grade extends React.Component {
                         })
                     }}>{hideText}</button>
                     &nbsp;&nbsp;
-                    {/*provoks the addition of a new grade as a child of the current*/}
-                    <button
-                        className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add
-                    </button>
-                    &nbsp;&nbsp;
                     {/*brings up the edit modal*/}
                     <button
                         className="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}>Edit
@@ -332,6 +327,12 @@ class Grade extends React.Component {
                 </span>
                 {/*list of the children grades*/}
                 <ul style={listStyle}>
+                    <li>
+                        {/*provoks the addition of a new grade as a child of the current*/}
+                        <button
+                            className="btn btn-primary btn-sm" onClick={this.handleAdd}>Add
+                        </button>
+                    </li>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
                             {/*passes the state of child to the component as a prop*/}
