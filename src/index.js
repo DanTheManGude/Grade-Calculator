@@ -310,6 +310,8 @@ class Grade extends React.Component {
                     {this.props.state.name}
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
+                    &nbsp;&nbsp;
+                    <ins>[{this.props.state.weight}]</ins>
                     {/*brings up the edit modal*/}
                     <button
                         className="btn btn-text" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i class="fa fa-cogs fa-lg" aria-hidden="true"></i>
