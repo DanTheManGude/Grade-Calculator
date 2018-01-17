@@ -380,6 +380,47 @@ class EditModalForm extends React.Component {
         });
     }
 
+    handleLetterForm(event){
+        var newScale = store.getState().editGradeModal.letterScale;
+        var newValue = event.target.value;
+        switch (event.target.name) {
+            case "As":
+                newScale.As = newValue
+                break;
+            case "Am":
+                newScale.Am = newValue
+                break;
+            case "Bp":
+                newScale.Bp = newValue
+                break;
+            case "Bs":
+                newScale.Bs = newValue
+                break;
+            case "Bm":
+                newScale.Bm = newValue
+                break;
+            case "Cp":
+                newScale.Cp = newValue
+                break;
+            case "Cs":
+                newScale.Cs = newValue
+                break;
+            case "Cm":
+                newScale.Cm = newValue
+                break;
+            case "Ds":
+                newScale.Ds = newValue
+                break;
+            default:
+        }
+        console.log(newValue);
+        console.log(newScale);
+        store.dispatch({
+            type: 'UPDATE_MODAL',
+            state: {...store.getState().editGradeModal,letterScale: newScale}
+        });
+    }
+
     //updates the state of the modal with the changing points feilds and weight
     handleChange(event){
         //checking to reject negative numbers
@@ -440,7 +481,7 @@ class EditModalForm extends React.Component {
         var letterStyle = numericChecked ? {display: 'none'} : {};
         var letterText;
         var letterFormStyle;
-        if (store.getState().editGradeModal.letterHide){
+        if (store.getState().editGradeModal.letterHide || numericChecked){
             letterText = "Edit Letter Scale";
             letterFormStyle = {display: 'none'};
         } else {
@@ -476,7 +517,49 @@ class EditModalForm extends React.Component {
                         </div>
                         {/*letter scale form*/}
                         <div className="form-group" style={letterFormStyle}>
-                            <p>letter form</p>
+                            <h6>Minimum value needed for grade</h6>
+                            <div className="flex-container">
+                                <div className="flex-element">
+                                    <label className="control-label">A</label>
+                                    <input name='As' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="A" value={store.getState().editGradeModal.letterScale.As}/>
+                                </div>
+                                <div className="flex-element">
+                                    <label className="control-label">A-</label>
+                                    <input name='Am' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="A-" value={store.getState().editGradeModal.letterScale.Am}/>
+                                </div>
+                                <div className="flex-element">
+                                    <label className="control-label">B+</label>
+                                    <input name='Bp' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B+" value={store.getState().editGradeModal.letterScale.Bp}/>
+                                </div>
+                            </div>
+                            <div className="flex-container">
+                            <div className="flex-element">
+                                <label className="control-label">B</label>
+                                <input name='Bs' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B" value={store.getState().editGradeModal.letterScale.Bs}/>
+                            </div>
+                            <div className="flex-element">
+                                <label className="control-label">B-</label>
+                                <input name='Bm' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B-" value={store.getState().editGradeModal.letterScale.Bm}/>
+                            </div>
+                                <div className="flex-element">
+                                    <label className="control-label">C+</label>
+                                    <input name='Cp' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="C+" value={store.getState().editGradeModal.letterScale.Cp}/>
+                                </div>
+                            </div>
+                            <div className="flex-container">
+                                <div className="flex-element">
+                                    <label className="control-label">C</label>
+                                    <input name='Cs' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="C" value={store.getState().editGradeModal.letterScale.Cs}/>
+                                </div>
+                                <div className="flex-element">
+                                    <label className="control-label">C-</label>
+                                    <input name='Cm' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="C-" value={store.getState().editGradeModal.letterScale.Cm}/>
+                                </div>
+                                <div className="flex-element">
+                                    <label className="control-label">D</label>
+                                    <input name='Ds' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="D" value={store.getState().editGradeModal.letterScale.Ds}/>
+                                </div>
+                            </div>
                         </div>
                         {/*points forms*/}
                         <div style={leafStyle} className="form-group flex-container">
@@ -519,7 +602,7 @@ class EditModalForm extends React.Component {
 }
 
 //given an array of grades, returns an average of all of the grades
-const calculatingAvg = (grades, numeric) => {
+const calculatingAvg = (grades, numeric, scale) => {
     var value = 0;
     var weight = 0;
     grades.forEach(function(g) {
@@ -532,31 +615,31 @@ const calculatingAvg = (grades, numeric) => {
     if (numeric) {
         return value;
     }
-    else if (value >= 92.5) {
+    else if (value >= (+scale.As)) {
         return 4.0
     }
-    else if (value >= 89.5) {
+    else if (value >= (+scale.Am)) {
         return 3.67
     }
-    else if (value >= 86.5) {
+    else if (value >= (+scale.Bp)) {
         return 3.33
     }
-    else if (value >= 82.5) {
+    else if (value >= (+scale.Bs)) {
         return 3.0
     }
-    else if (value >= 79.5) {
+    else if (value >= (+scale.Bm)) {
         return 2.67
     }
-    else if (value >= 76.5) {
+    else if (value >= (+scale.Cp)) {
         return 2.33
     }
-    else if (value >= 72.5) {
+    else if (value >= (+scale.Cs)) {
         return 2.0
     }
-    else if (value >= 69.5) {
+    else if (value >= (+scale.Cm)) {
         return 1.67
     }
-    else if (value >= 64.5) {
+    else if (value >= (+scale.Ds)) {
         return 1.0
     }
     else {
@@ -590,7 +673,18 @@ const defaultGrade = (id, h) => {
         available: 100,
         expected: false,
         numeric: true,
-        letterHide: true
+        letterHide: true,
+        letterScale: {
+            'As': 92.5,
+            'Am': 89.5,
+            'Bp': 86.5,
+            'Bs': 82.5,
+            'Bm': 79.5,
+            'Cp': 76.5,
+            'Cs': 72.5,
+            'Cm': 69.5,
+            'Ds': 64.5
+        }
     }
 }
 
@@ -625,7 +719,7 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
         case 'CALCULATE_AVG':
             if (action.h.includes(state.id) && state.grades.length > 0){
                 var newGrades = state.grades.map(g => grade(g, action));
-                return {...state,avg: calculatingAvg(newGrades, state.numeric), expected: calculatingExpected(newGrades), grades: newGrades};
+                return {...state,avg: calculatingAvg(newGrades, state.numeric, state.letterScale), expected: calculatingExpected(newGrades), grades: newGrades};
             }
             return state;
         case 'UPLOAD_GRADE':
@@ -635,18 +729,8 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
         }
 }
 
-//default values for the Grade modal
-const initialGradeModal = {
-    name: '',
-    id: 0,
-    heritage: [],
-    avg: 0,
-    grades: [],
-    weight: 0
-}
-
 //reducer for the editing grade modal
-const editGradeModal = (state = initialGradeModal, action) => {
+const editGradeModal = (state = defaultGrade(0,[]), action) => {
     switch (action.type) {
         case 'UPDATE_MODAL':
             return action.state;
