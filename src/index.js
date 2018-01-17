@@ -83,8 +83,8 @@ class App extends React.Component {
                       {/*into blurb and a quick get started instructions*/}
                       <p>
                           A hassle free way to calculate your grade average.
-                          <br/>To get started hit the blue 'Add' button to create components that make up a grade.
-                          <br/>Hit the yellow 'Edit' button to change the grade value and name.
+                          <br/>To get started hit plus to create components that make up a grade.
+                          <br/>Hit the gears to change the grade value and name.
                       </p>
                       {/*the base grade which all other grade items exist in*/}
                       <div className="rootGrade">
