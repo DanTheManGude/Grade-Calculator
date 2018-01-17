@@ -301,7 +301,7 @@ class Grade extends React.Component {
             <div>
                 <span>
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button className="btn btn-text btn-sm" onClick={() => {
+                    <button className="btn btn-link btn-sm" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)
@@ -314,7 +314,7 @@ class Grade extends React.Component {
                     <ins>[{this.props.state.weight}]</ins>
                     {/*brings up the edit modal*/}
                     <button
-                        className="btn btn-text" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i className="fa fa-cogs fa-lg" aria-hidden="true"></i>
+                        className="btn btn-link" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i className="fa fa-cogs fa-lg" aria-hidden="true"></i>
                     </button>
                     {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModalForm" role="dialog">
@@ -330,7 +330,7 @@ class Grade extends React.Component {
                     <li>
                         {/*provoks the addition of a new grade as a child of the current*/}
                         <button
-                            className="btn btn-text" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
+                            className="btn btn-link" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                         </button>
                     </li>
                     {this.props.state.grades.map(grade =>
