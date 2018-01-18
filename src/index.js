@@ -418,8 +418,6 @@ class EditModalForm extends React.Component {
                 break;
             default:
         }
-        console.log(newValue);
-        console.log(newScale);
         store.dispatch({
             type: 'UPDATE_MODAL',
             state: {...store.getState().editGradeModal,letterScale: newScale}
@@ -538,14 +536,14 @@ class EditModalForm extends React.Component {
                                 </div>
                             </div>
                             <div className="flex-container">
-                            <div className="flex-element">
-                                <label className="control-label">B</label>
-                                <input name='Bs' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B" value={store.getState().editGradeModal.letterScale.Bs}/>
-                            </div>
-                            <div className="flex-element">
-                                <label className="control-label">B-</label>
-                                <input name='Bm' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B-" value={store.getState().editGradeModal.letterScale.Bm}/>
-                            </div>
+                                <div className="flex-element">
+                                    <label className="control-label">B</label>
+                                    <input name='Bs' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B" value={store.getState().editGradeModal.letterScale.Bs}/>
+                                </div>
+                                <div className="flex-element">
+                                    <label className="control-label">B-</label>
+                                    <input name='Bm' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="B-" value={store.getState().editGradeModal.letterScale.Bm}/>
+                                </div>
                                 <div className="flex-element">
                                     <label className="control-label">C+</label>
                                     <input name='Cp' onChange={this.handleLetterForm} step=".01" min="0" className="form-control" placeholder="C+" value={store.getState().editGradeModal.letterScale.Cp}/>
