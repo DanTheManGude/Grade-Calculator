@@ -310,11 +310,16 @@ class Grade extends React.Component {
                     {this.props.state.name}
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
-                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;
                     <ins>[{this.props.state.weight}]</ins>
+                    &nbsp;
                     {/*brings up the edit modal*/}
                     <button
                         className="btn btn-link" data-toggle="modal" data-target="#EditModalForm" onClick={this.setModalState}><i className="fa fa-cogs fa-lg" aria-hidden="true"></i>
+                    </button>
+                    {/*provoks the addition of a new grade as a child of the current*/}
+                    <button
+                        className="btn btn-link" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                     </button>
                     {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModalForm" role="dialog">
@@ -327,12 +332,6 @@ class Grade extends React.Component {
                 </span>
                 {/*list of the children grades*/}
                 <ul style={listStyle}>
-                    <li>
-                        {/*provoks the addition of a new grade as a child of the current*/}
-                        <button
-                            className="btn btn-link" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
-                        </button>
-                    </li>
                     {this.props.state.grades.map(grade =>
                         <li key={grade.id}>
                             {/*passes the state of child to the component as a prop*/}
@@ -670,7 +669,7 @@ const defaultGrade = (id, h) => {
         name: 'New Grade',
         heritage: h,
         id,
-        hide: false,
+        hide: true,
         weight: 1,
         recieved: 100,
         available: 100,
@@ -699,7 +698,7 @@ const editingGrade = (state, h, action) => {
         }
         switch (action.type) {
             case 'ADD':
-                return {...state,grades: state.grades.concat(defaultGrade(action.id, action.h))};
+                return {...state,grades: state.grades.concat(defaultGrade(action.id, action.h)),hide: false};
             case 'UPDATE_GRADE':
                 return action.state;
             case 'DELETE_GRADE':
