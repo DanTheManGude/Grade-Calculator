@@ -11,6 +11,7 @@ export class App extends React.Component {
 
         this.changeModal = this.changeModal.bind(this);
         this.GoogleLogin = this.GoogleLogin.bind(this);
+        this.save = this.save.bind(this);
 
         // Initialize Firebase
         var config = {
@@ -46,6 +47,10 @@ export class App extends React.Component {
         });
     }
 
+    save(){
+        console.log("Saving");
+    }
+
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
     changeModal(event) {
         store.dispatch({
@@ -72,7 +77,10 @@ export class App extends React.Component {
                         </li>
                         {/*GoogleLogin*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google" height='21'/> Login</a>
+                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google" height='19'/> Login</a>
+                        </li>{/*opens a modal to upload a previouslly downloaded grade*/}
+                        <li className="nav-item">
+                            <a className="nav-link" id='Save' onClick={this.save}><i className="fa fa-save" aria-hidden="true"></i> Save</a>
                         </li>
                         {/*opens a modal to upload a previouslly downloaded grade*/}
                         <li className="nav-item">
@@ -96,7 +104,7 @@ export class App extends React.Component {
                         </li>
                         {/*my main homepage*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://dangude.com"><img src="icons/favicon.png" alt="DG" height='25'/> Dan Gude</a>
+                          <a className="nav-link" href="https://dangude.com"><img src="icons/favicon.png" alt="DG" height='25'/></a>
                         </li>
                       </ul>
                     </div>
