@@ -2,7 +2,7 @@ import React from 'react';
 import { store } from '../index.js';
 import { NavModal } from './NavModal.js';
 import { Grade } from './Grade.js';
-import { EditModal } from './EditModal.js';
+var firebase = require("firebase");
 
 //main class that encompesses the entire application
 export class App extends React.Component {
@@ -10,6 +10,40 @@ export class App extends React.Component {
         super(props);
 
         this.changeModal = this.changeModal.bind(this);
+        this.GoogleLogin = this.GoogleLogin.bind(this);
+
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyD3NYaSGWpcjdwwoUZBC2j_p1y7eylw3kg",
+          authDomain: "grade-calculator-dg.firebaseapp.com",
+          databaseURL: "https://grade-calculator-dg.firebaseio.com",
+          projectId: "grade-calculator-dg",
+          storageBucket: "",
+          messagingSenderId: "525891462124"
+        };
+        firebase.initializeApp(config);
+    }
+
+    GoogleLogin(){
+        //Google login
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          console.log("Yay :)");
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          console.log(user.email);
+        }).catch(function(error) {
+            console.log("Uh OH :(")
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+        });
     }
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
@@ -85,6 +119,7 @@ export class App extends React.Component {
                           <br/>To get started hit plus to create components that make up a grade.
                           <br/>Hit the gears to change the grade value and name.
                       </p>
+                        <button className="btn" onClick={this.GoogleLogin}>Login</button>
                       {/*the base grade which all other grade items exist in*/}
                       <div className="rootGrade">
                         <Grade state={store.getState().grade} />
