@@ -70,6 +70,10 @@ export class App extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
+                        {/*GoogleLogin*/}
+                        <li className="nav-item">
+                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google" height='21'/> Login</a>
+                        </li>
                         {/*opens a modal to upload a previouslly downloaded grade*/}
                         <li className="nav-item">
                             <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-upload" aria-hidden="true"></i> Upload</a>
@@ -119,7 +123,6 @@ export class App extends React.Component {
                           <br/>To get started hit plus to create components that make up a grade.
                           <br/>Hit the gears to change the grade value and name.
                       </p>
-                        <button className="btn" onClick={this.GoogleLogin}>Login</button>
                       {/*the base grade which all other grade items exist in*/}
                       <div className="rootGrade">
                         <Grade state={store.getState().grade} />
