@@ -80,17 +80,15 @@ const defaultGrade = (id, h) => {
         expected: false,
         numeric: true,
         letterHide: true,
-        letterScale: {
-            'As': 92.5,
-            'Am': 89.5,
-            'Bp': 86.5,
-            'Bs': 82.5,
-            'Bm': 79.5,
-            'Cp': 76.5,
-            'Cs': 72.5,
-            'Cm': 69.5,
-            'Ds': 64.5
-        }
+        'As': 92.5,
+        'Am': 89.5,
+        'Bp': 86.5,
+        'Bs': 82.5,
+        'Bm': 79.5,
+        'Cp': 76.5,
+        'Cs': 72.5,
+        'Cm': 69.5,
+        'Ds': 64.5
     }
 }
 
@@ -125,7 +123,7 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
         case 'CALCULATE_AVG':
             if (action.h.includes(state.id) && state.grades.length > 0){
                 var newGrades = state.grades.map(g => grade(g, action));
-                return {...state,avg: calculatingAvg(newGrades, state.numeric, state.letterScale), expected: calculatingExpected(newGrades), grades: newGrades};
+                return {...state,avg: calculatingAvg(newGrades, state.numeric, state), expected: calculatingExpected(newGrades), grades: newGrades};
             }
             return state;
         case 'UPLOAD_GRADE':
@@ -140,6 +138,41 @@ const editGradeModal = (state = defaultGrade(0,[]), action) => {
     switch (action.type) {
         case 'UPDATE_MODAL':
             return action.state;
+        case 'UPDATE_MODAL_LETTER':
+            var newScale = state;
+            var newValue = action.number;
+            switch (action.letter) {
+                case "As":
+                    newScale.As = newValue
+                    break;
+                case "Am":
+                    newScale.Am = newValue
+                    break;
+                case "Bp":
+                    newScale.Bp = newValue
+                    break;
+                case "Bs":
+                    newScale.Bs = newValue
+                    break;
+                case "Bm":
+                    newScale.Bm = newValue
+                    break;
+                case "Cp":
+                    newScale.Cp = newValue
+                    break;
+                case "Cs":
+                    newScale.Cs = newValue
+                    break;
+                case "Cm":
+                    newScale.Cm = newValue
+                    break;
+                case "Ds":
+                    newScale.Ds = newValue
+                    break;
+                default:
+                    console.log("whoops");
+            }
+            return newScale;
         default:
             return state;
         }
@@ -185,7 +218,7 @@ const gradeApp = combineReducers({
 });
 
 //redux store
-export const store = createStore(gradeApp);
+export const store = createStore(gradeApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 //root render of the application
 const render = () => {

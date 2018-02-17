@@ -2,7 +2,6 @@ import React from 'react';
 import { store } from '../index.js';
 import { NavModal } from './NavModal.js';
 import { Grade } from './Grade.js';
-import { EditModal } from './EditModal.js';
 
 //main class that encompesses the entire application
 export class App extends React.Component {
