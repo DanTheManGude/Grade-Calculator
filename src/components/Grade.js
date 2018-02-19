@@ -82,7 +82,7 @@ export class Grade extends React.Component {
             <div>
                 <span>
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button style={leafStyle} className="btn btn-link btn-sm" onClick={() => {
+                    <button style={leafStyle} className="btn btn-link btn-sm pointer" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)

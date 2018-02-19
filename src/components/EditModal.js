@@ -121,7 +121,7 @@ export class EditModal extends React.Component {
             <div>
                 <div className="modal-header">
                   <h4 className="modal-title">Edit Grade</h4>
-                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                  <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">
                     <form className="form-horizontal">
@@ -132,11 +132,11 @@ export class EditModal extends React.Component {
                         </div>
                         {/*kind radio buttons*/}
                         <div className="form-group flex-container">
-                            <label className="radio-inline flex-element">
-                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={numericChecked}/>Numeric
+                            <label className="radio-inline flex-element pointer">
+                              <input className="pointer" onClick={this.handleKind} type="radio" name="kindradio" checked={numericChecked}/> Numeric
                             </label>
-                            <label className="radio-inline flex-element">
-                              <input onClick={this.handleKind} type="radio" name="kindradio" checked={!numericChecked}/>Letter
+                            <label className="radio-inline flex-element pointer">
+                              <input className="pointer" onClick={this.handleKind} type="radio" name="kindradio" checked={!numericChecked}/> Letter
                             </label>
                         </div>
                         {/*edit letter scale button*/}
@@ -207,11 +207,11 @@ export class EditModal extends React.Component {
                         </div>
                         {/*actual or expected radio buttons*/}
                         <div className="form-group flex-container" style={leafStyle}>
-                            <label className="radio-inline flex-element">
-                              <input onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/>Actual
+                            <label className="radio-inline flex-element pointer">
+                              <input className="pointer" onClick={this.handleRadio} type="radio" name="optradio" checked={!radioChecked}/> Actual
                             </label>
-                            <label className="radio-inline flex-element">
-                              <input onClick={this.handleRadio} type="radio" name="optradio" checked={radioChecked}/>Expected
+                            <label className="radio-inline flex-element pointer">
+                              <input className="pointer" onClick={this.handleRadio} type="radio" name="optradio" checked={radioChecked}/> Expected
                             </label>
                         </div>
                     </form>

@@ -74,7 +74,7 @@ export class App extends React.Component {
                 </div>
 
                 {/*main body of the page*/}
-                <div className="container">
+                <div className="container default">
                   <div className="row">
                     <div className="col-lg-12 intro">
                       <h2 className="mt-5">Welcome to Grade Calculator</h2>

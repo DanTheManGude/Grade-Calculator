@@ -55,7 +55,7 @@ export class NavModal extends React.Component {
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Hints and How-Tos</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
                         {/*various how-tos on how to use and navigate the application as a user*/}
@@ -91,7 +91,7 @@ export class NavModal extends React.Component {
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Upload Grades</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
                         <h6>FILES FROM THIS SITE ONLY</h6>
@@ -112,7 +112,7 @@ export class NavModal extends React.Component {
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Download Grades</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
                         <form className="form-horizontal">
