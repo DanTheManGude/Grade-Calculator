@@ -66,7 +66,7 @@ export class App extends React.Component {
 
                 {/*outershell for the modal created by any of the link in the nav bar*/}
                 <div className="modal fade" id="NavModal" role="dialog">
-                  <div className="modal-dialog modal-sm">
+                  <div className="modal-dialog">
                     <div className="modal-content">
                         <NavModal />
                     </div>
