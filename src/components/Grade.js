@@ -74,6 +74,8 @@ export class Grade extends React.Component {
         var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
         //determines if the current grade needs to be signified as expected
         var showStyle = this.props.state.expected ? {backgroundColor: '#ffc107'} : {};
+        //determines if the grade is the root grade to show the weight or not
+        var rootStyle = this.props.state.id === 0 ? {display: 'none'} : {};
         return(
             <div>
                 <span>
@@ -87,9 +89,8 @@ export class Grade extends React.Component {
                     {this.props.state.name}
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
-                    &nbsp;&nbsp;&nbsp;
-                    <ins>[{this.props.state.weight}]</ins>
-                    &nbsp;
+                    &nbsp;&nbsp;
+                    <ins style={rootStyle}>[{this.props.state.weight}]</ins>
                     {/*brings up the edit modal*/}
                     <button
                         className="btn btn-link" data-toggle="modal" data-target="#EditModal" onClick={this.setModalState}><i className="fa fa-cogs fa-lg" aria-hidden="true"></i>
