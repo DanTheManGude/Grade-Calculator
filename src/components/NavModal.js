@@ -58,6 +58,23 @@ export class NavModal extends React.Component {
                       <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
+                        {/*various how-tos on how to use and navigate the application as a user*/}
+                        <p>
+                            <ul>
+                                <li>The arrow on the left can hide or show the breakdown of that grade.</li>
+                                <li>The bolded number/letter to the right of the name is the value of that grade.</li>
+                                <li>If the value is highlighted, it or a component of it is marked as expected.</li>
+                                <li>The number in [_] is the weight of the grade.</li>
+                                <li>When editing a grade be sure to hit the "Save" button. The "Close" button will not apply the changes you made.</li>
+                                <li>To have multiple parts be weighted equal, set all the weights to 1.</li>
+                                <li>For course grade, use the credits of the course for the weight value.</li>
+                                <li>To encorperate your esiting GPA, set the 'Points recieved' to your GPA, 'Points available' to 100, and 'Weight' to how many credits you have taken.</li>
+                                <li>The <i className="fa fa-download"></i> Download is to dowload the current grades.</li>
+                                <li>The <i className="fa fa-upload"></i> Upload to to load a previously dowloaded grades.</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div className="modal-footer">
                         <div className="flex-container">
                             {/*button to set the root grade to an example grade*/}
                             <button  data-dismiss="modal" className="btn btn-outline-primary btn-sm flex-element" onClick={() => {
@@ -66,14 +83,6 @@ export class NavModal extends React.Component {
                                     state: require('../ExampleGrades.json')
                                 })
                             }}>Set to example grades</button>
-                        </div>
-                        {/*various how-tos on how to use and navigate the application as a user*/}
-                        <p>
-                            Hints to come, check back soon.
-                        </p>
-                    </div>
-                    <div className="modal-footer">
-                        <div className="flex-container">
                             <button className="btn btn-outline-dark flex-element" data-dismiss="modal">Close</button>
                         </div>
                     </div>

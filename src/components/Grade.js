@@ -74,11 +74,17 @@ export class Grade extends React.Component {
         var show = this.props.state.numeric ? (Math.round(this.props.state.avg * 100) / 100) : this.findGPA(this.props.state.avg);
         //determines if the current grade needs to be signified as expected
         var showStyle = this.props.state.expected ? {backgroundColor: '#ffc107'} : {};
+        //determines if the grade is the root grade to show the weight or not
+        var rootStyle = this.props.state.id === 0 ? {display: 'none'} : {};
+        //determines if the grade is a leaf or parent of other grades
+        var leafStyle = this.props.state.grades.length > 0 ? {} : {display: 'none'};
+        //color of the add grade button
+        var addStyle = {color : 'green'};
         return(
             <div>
                 <span>
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button className="btn btn-link btn-sm" onClick={() => {
+                    <button style={leafStyle} className="btn btn-link btn-sm" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)
@@ -87,16 +93,15 @@ export class Grade extends React.Component {
                     {this.props.state.name}
                     &nbsp;&nbsp;
                     <strong style={showStyle}>{show}</strong>
-                    &nbsp;&nbsp;&nbsp;
-                    <ins>[{this.props.state.weight}]</ins>
-                    &nbsp;
+                    &nbsp;&nbsp;
+                    <ins style={rootStyle}>[{this.props.state.weight}]</ins>
                     {/*brings up the edit modal*/}
                     <button
                         className="btn btn-link" data-toggle="modal" data-target="#EditModal" onClick={this.setModalState}><i className="fa fa-cogs fa-lg" aria-hidden="true"></i>
                     </button>
                     {/*provoks the addition of a new grade as a child of the current*/}
                     <button
-                        className="btn btn-link" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
+                        className="btn btn-link" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true" style={addStyle}></i>
                     </button>
                     {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModal" role="dialog">

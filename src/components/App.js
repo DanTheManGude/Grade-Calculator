@@ -92,11 +92,11 @@ export class App extends React.Component {
                         </li>
                         {/*Github repo where this project can be found*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator"><i className="fa fa-code" aria-hidden="true"></i> Source</a>
+                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator" target="_blank"><i className="fa fa-code" aria-hidden="true"></i> Source</a>
                         </li>
                         {/*feedback form*/}
                         <li className="nav-item">
-                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1"><i className="fa fa-paper-plane" aria-hidden="true"></i> Feedback</a>
+                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1" target="_blank"><i className="fa fa-paper-plane" aria-hidden="true"></i> Feedback</a>
                         </li>
                         {/*mail to link to get in contact with me*/}
                         <li className="nav-item">
@@ -104,7 +104,7 @@ export class App extends React.Component {
                         </li>
                         {/*my main homepage*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://dangude.com"><img src="icons/favicon.png" alt="DG" height='25'/></a>
+                          <a className="nav-link" href="https://dangude.com" target="_blank"><img src="icons/favicon.png" alt="DG" height='25'/> Dan Gude</a>
                         </li>
                       </ul>
                     </div>
@@ -113,7 +113,7 @@ export class App extends React.Component {
 
                 {/*outershell for the modal created by any of the link in the nav bar*/}
                 <div className="modal fade" id="NavModal" role="dialog">
-                  <div className="modal-dialog modal-sm">
+                  <div className="modal-dialog">
                     <div className="modal-content">
                         <NavModal />
                     </div>
@@ -125,12 +125,14 @@ export class App extends React.Component {
                   <div className="row">
                     <div className="col-lg-12 intro">
                       <h2 className="mt-5">Welcome to Grade Calculator</h2>
+                      <h5> A hassle free way to calculate your grade average.</h5>
                       {/*into blurb and a quick get started instructions*/}
-                      <p>
-                          A hassle free way to calculate your grade average.
-                          <br/>To get started hit plus to create components that make up a grade.
+                      <div className="alert alert-info alert-dismissable">
+                          <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                          To get started hit plus to create components that make up a grade.
                           <br/>Hit the gears to change the grade value and name.
-                      </p>
+                          <br/>Hit the <i className="fa fa-question-circle" aria-hidden="true"></i> for Hints and Help using the site.
+                      </div>
                       {/*the base grade which all other grade items exist in*/}
                       <div className="rootGrade">
                         <Grade state={store.getState().grade} />
