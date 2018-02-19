@@ -36,12 +36,17 @@ export class NavModal extends React.Component {
             return function(e) {
                 try {
                     json = JSON.parse(e.target.result);
-                    store.dispatch({
-                        type: 'UPLOAD_GRADE',
-                        state: json
-                    });
+                    if (json.isGude){
+                        store.dispatch({
+                            type: 'UPLOAD_GRADE',
+                            state: json
+                        });
+                    }
+                    else {
+                        throw {message:"Invalid file upload", name:"UserUpload"}
+                    }
                 } catch (ex) {
-                    alert('JSON files created from this website only!');
+                    alert('JSON files created from this Website only please!');
                 }
             }
         })(file);
@@ -55,7 +60,7 @@ export class NavModal extends React.Component {
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Hints and How-Tos</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
                         {/*various how-tos on how to use and navigate the application as a user*/}
@@ -91,13 +96,13 @@ export class NavModal extends React.Component {
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Upload Grades</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
-                        <h6>FILES FROM THIS SITE ONLY</h6>
+                        <h6>FILES SAVED FROM THIS SITE ONLY PLEASE</h6>
                         {/*form for the user to select a file from their computer*/}
                         <div className="form-group">
-                            <input accept="json" className="form-control" type="file" onChange={this.onChangeFile} />
+                            <input accept="json" className="form-control pointer" type="file" onChange={this.onChangeFile} />
                         </div>
                     </div>
                     {/*activates the funtion to upload the file*/}
@@ -112,7 +117,7 @@ export class NavModal extends React.Component {
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Download Grades</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
                         <form className="form-horizontal">

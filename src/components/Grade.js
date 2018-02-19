@@ -78,13 +78,11 @@ export class Grade extends React.Component {
         var rootStyle = this.props.state.id === 0 ? {display: 'none'} : {};
         //determines if the grade is a leaf or parent of other grades
         var leafStyle = this.props.state.grades.length > 0 ? {} : {display: 'none'};
-        //color of the add grade button
-        var addStyle = {color : 'green'};
         return(
             <div>
                 <span>
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button style={leafStyle} className="btn btn-link btn-sm" onClick={() => {
+                    <button style={leafStyle} className="btn btn-link btn-sm pointer" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)
@@ -101,7 +99,7 @@ export class Grade extends React.Component {
                     </button>
                     {/*provoks the addition of a new grade as a child of the current*/}
                     <button
-                        className="btn btn-link" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true" style={addStyle}></i>
+                        className="btn btn-link" id="addGradeButton" onClick={this.handleAdd}><i className="fa fa-plus-square fa-lg" aria-hidden="true"></i>
                     </button>
                     {/*outer shell of the editing modal*/}
                     <div className="modal fade" id="EditModal" role="dialog">
