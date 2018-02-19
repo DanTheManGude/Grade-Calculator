@@ -76,11 +76,13 @@ export class Grade extends React.Component {
         var showStyle = this.props.state.expected ? {backgroundColor: '#ffc107'} : {};
         //determines if the grade is the root grade to show the weight or not
         var rootStyle = this.props.state.id === 0 ? {display: 'none'} : {};
+        //determines if the grade is a leaf or parent of other grades
+        var leafStyle = this.props.state.grades.length > 0 ? {} : {display: 'none'};
         return(
             <div>
                 <span>
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button className="btn btn-link btn-sm" onClick={() => {
+                    <button style={leafStyle} className="btn btn-link btn-sm" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)
