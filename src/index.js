@@ -88,7 +88,8 @@ const defaultGrade = (id, h) => {
         'Cp': 76.5,
         'Cs': 72.5,
         'Cm': 69.5,
-        'Ds': 64.5
+        'Ds': 64.5,
+        isGude: true
     }
 }
 
