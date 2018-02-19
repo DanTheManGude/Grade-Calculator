@@ -45,11 +45,11 @@ export class App extends React.Component {
                         </li>
                         {/*Github repo where this project can be found*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator target="_blank""><i className="fa fa-code" aria-hidden="true"></i> Source</a>
+                          <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator" target="_blank"><i className="fa fa-code" aria-hidden="true"></i> Source</a>
                         </li>
                         {/*feedback form*/}
                         <li className="nav-item">
-                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1 target="_blank""><i className="fa fa-paper-plane" aria-hidden="true"></i> Feedback</a>
+                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1" target="_blank"><i className="fa fa-paper-plane" aria-hidden="true"></i> Feedback</a>
                         </li>
                         {/*mail to link to get in contact with me*/}
                         <li className="nav-item">
