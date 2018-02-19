@@ -78,12 +78,14 @@ export class App extends React.Component {
                   <div className="row">
                     <div className="col-lg-12 intro">
                       <h2 className="mt-5">Welcome to Grade Calculator</h2>
+                      <h5> A hassle free way to calculate your grade average.</h5>
                       {/*into blurb and a quick get started instructions*/}
-                      <p>
-                          A hassle free way to calculate your grade average.
-                          <br/>To get started hit plus to create components that make up a grade.
+                      <div className="alert alert-info alert-dismissable">
+                          <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                          To get started hit plus to create components that make up a grade.
                           <br/>Hit the gears to change the grade value and name.
-                      </p>
+                          <br/>Hit the <i className="fa fa-question-circle" aria-hidden="true"></i> for Hints and Help using the site.
+                      </div>
                       {/*the base grade which all other grade items exist in*/}
                       <div className="rootGrade">
                         <Grade state={store.getState().grade} />
