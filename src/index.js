@@ -116,7 +116,7 @@ const editingGrade = (state, h, action) => {
 }
 
 //reducer for the grade states,
-const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => {
+const grade = (state = require('./ExampleGrades.json'), action) => {
     if (['ADD', 'UPDATE_GRADE', 'DELETE_GRADE', 'TOGGLE_HIDE'].includes(action.type)) {
         return editingGrade(state, action.h, action);
     }
@@ -129,6 +129,8 @@ const grade = (state = {...defaultGrade(0,[]),name:'Overall Grade'}, action) => 
             return state;
         case 'UPLOAD_GRADE':
             return action.state;
+        case 'CLEAR_GRADE':
+            return defaultGrade(0,[]);
         default:
           return state
         }

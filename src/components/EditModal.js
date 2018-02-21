@@ -86,6 +86,13 @@ export class EditModal extends React.Component {
                 h: store.getState().editGradeModal.heritage.concat(store.getState().editGradeModal.id)
             });
         } else if ((event.target.id === 'Delete')){
+            if (store.getState().editGradeModal.id === store.getState().grade.id){
+                //sets state to single grade with default values
+                store.dispatch({
+                    type: 'CLEAR_GRADE'
+                });
+                return;
+            }
             //deletes this grade
             store.dispatch({
                 type: 'DELETE_GRADE',
@@ -219,7 +226,7 @@ export class EditModal extends React.Component {
                 <div className="modal-footer">
                     {/*delete, close and save buttons*/}
                     <div className="flex-container">
-                      <button style={baseStyle} type="button" onClick={this.handleClose} className="btn btn-danger flex-element" id="Delete" data-dismiss="modal">Delete</button>
+                      <button type="button" onClick={this.handleClose} className="btn btn-danger flex-element" id="Delete" data-dismiss="modal">Delete</button>
                       <button type="button" className="btn btn-secondary flex-element" data-dismiss="modal">Close</button>
                       <button type="button" onClick={this.handleClose} className="btn btn-success flex-element" id="Save" data-dismiss="modal">Save</button>
                     </div>
