@@ -77,7 +77,7 @@ export class App extends React.Component {
                 <div className="container default">
                   <div className="row">
                     <div className="col-lg-12 intro">
-                      <h2 className="mt-5">Welcome to Grade Calculator</h2>
+                      <h2 id="title" className="mt-5">Welcome to Grade Calculator</h2>
                       <h5> A hassle free way to calculate your grade average.</h5>
                       {/*into blurb and a quick get started instructions*/}
                       <div className="alert alert-info alert-dismissable">

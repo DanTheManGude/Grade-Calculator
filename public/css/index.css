@@ -1,0 +1,24 @@
+/*color of the add grade button */
+#addGradeButton {
+    color: #108d14;
+}
+#addGradeButton:hover {
+    color: #0b5f0e;
+}
+
+/*pointer styles */
+.pointer, .btn, a {
+    cursor: pointer;
+}
+.default {
+    cursor: default;
+}
+
+/*using custom font*/
+@font-face {
+    font-family: 'Calculator';
+    src: url('./digital-7 (mono).ttf');
+}
+#title {
+    font-family: 'Calculator';
+}
