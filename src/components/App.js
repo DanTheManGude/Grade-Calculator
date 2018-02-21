@@ -57,7 +57,7 @@ export class App extends React.Component {
                         </li>
                         {/*my main homepage*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://dangude.com" target="_blank"><img src="icons/favicon.png" alt="DG" height='25'/> Dan Gude</a>
+                          <a className="nav-link" href="https://dangude.com" target="_blank"><img src="icons/DG.png" alt="DG" height='25'/> Dan Gude</a>
                         </li>
                       </ul>
                     </div>
