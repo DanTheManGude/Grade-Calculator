@@ -84,13 +84,14 @@ export class Grade extends React.Component {
             leafStyle = {display: 'none'};
         } else {
             nonLeafStyle = {display: 'none'};
-            leafStyle = {};
+            leafStyle = {color: '#157EFB'};
         }
         return(
             <div>
                 <span>
-                    {/*Spacing for leaf grades to match the text of the other grades*/}
-                    <nobr style={leafStyle}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nobr>
+                    {/*Dash for leaf grades*/}
+                    <i style={leafStyle} className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    &nbsp;&nbsp;
                     {/*toggles the hiding of all of the children of the current grade*/}
                     <button style={nonLeafStyle} className="btn btn-link btn-sm pointer" onClick={() => {
                         store.dispatch({
