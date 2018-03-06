@@ -89,8 +89,10 @@ export class Grade extends React.Component {
         return(
             <div>
                 <span>
-                    {/*Dash for leaf grades*/}
-                    <i style={leafStyle} className="fa fa-ellipsis-v btn default" aria-hidden="true">&nbsp;</i>
+                    {/*Icon for leaf grades*/}
+                    <span style={leafStyle} className="btn default">
+                        <i className="fas fa-ellipsis-v" aria-hidden="true"></i>
+                    &nbsp;</span>
                     {/*toggles the hiding of all of the children of the current grade*/}
                     <button style={nonLeafStyle} className="btn-link btn pointer" onClick={() => {
                         store.dispatch({
