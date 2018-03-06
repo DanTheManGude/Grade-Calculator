@@ -75,16 +75,17 @@ export class App extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
-                        {/*GoogleLogin*/}
+                        {/*Loads a previouslly saved grade frome firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google" height='19'/> Login</a>
-                        </li>{/*opens a modal to upload a previouslly downloaded grade*/}
-                        <li className="nav-item">
-                            <a className="nav-link" id='Save' onClick={this.save}><i className="fa fa-save" aria-hidden="true"></i> Save</a>
+                            <a className="nav-link" id='Save' onClick={this.save}><i class="fas fa-cloud-download-alt"></i> Load</a>
                         </li>
-                        {/*opens a modal to upload a previouslly downloaded grade*/}
+                        {/*saves grade to firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-upload" aria-hidden="true"></i> Upload</a>
+                            <a className="nav-link" id='Save' onClick={this.save}><i class="fa fa-cloud-upload-alt"></i> Save</a>
+                        </li>
+                        {/*opens a modal to open a previouslly downloaded grade*/}
+                        <li className="nav-item">
+                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i class="fas fa-folder-open"></i> Open</a>
                         </li>
                         {/*opens a modal to download the current grade structure*/}
                         <li className="nav-item">
@@ -94,17 +95,13 @@ export class App extends React.Component {
                         <li className="nav-item">
                           <a className="nav-link" href="https://github.com/DanTheManGude/Grade-Calculator" target="_blank"><i className="fa fa-code" aria-hidden="true"></i> Source</a>
                         </li>
-                        {/*feedback form*/}
-                        <li className="nav-item">
-                            <a className="nav-link" href="https://goo.gl/forms/xehYVVhdNWTMEygm1" target="_blank"><i className="fa fa-paper-plane" aria-hidden="true"></i> Feedback</a>
-                        </li>
                         {/*mail to link to get in contact with me*/}
                         <li className="nav-item">
                             <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact"><i className="fa fa-envelope" aria-hidden="true"></i> Contact</a>
                         </li>
-                        {/*my main homepage*/}
+                        {/*GoogleLogin*/}
                         <li className="nav-item">
-                          <a className="nav-link" href="https://dangude.com" target="_blank"><img src="icons/DG.png" alt="DG" height='25'/> Dan Gude</a>
+                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google" height='19'/> Login</a>
                         </li>
                       </ul>
                     </div>
