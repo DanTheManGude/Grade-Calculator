@@ -77,7 +77,7 @@ export class App extends React.Component {
                         </li>
                         {/*Loads a previouslly saved grade frome firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Save' onClick={this.save}><i class="fas fa-cloud-download-alt"></i> Load</a>
+                            <a className="nav-link" id='Save' onClick={this.load}><i class="fas fa-cloud-download-alt"></i> Load</a>
                         </li>
                         {/*saves grade to firebase*/}
                         <li className="nav-item">
@@ -101,7 +101,7 @@ export class App extends React.Component {
                         </li>
                         {/*GoogleLogin*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google" height='19'/> Login</a>
+                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google Login" height='30em'/></a>
                         </li>
                       </ul>
                     </div>
