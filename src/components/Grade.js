@@ -77,12 +77,22 @@ export class Grade extends React.Component {
         //determines if the grade is the root grade to show the weight or not
         var rootStyle = this.props.state.id === 0 ? {display: 'none'} : {};
         //determines if the grade is a leaf or parent of other grades
-        var leafStyle = this.props.state.grades.length > 0 ? {} : {display: 'none'};
+        var nonLeafStyle;
+        var leafStyle;
+        if (this.props.state.grades.length > 0){
+            nonLeafStyle = {};
+            leafStyle = {display: 'none'};
+        } else {
+            nonLeafStyle = {display: 'none'};
+            leafStyle = {color: '#157EFB'};
+        }
         return(
             <div>
                 <span>
+                    {/*Dash for leaf grades*/}
+                    <i style={leafStyle} className="fa fa-ellipsis-v btn default" aria-hidden="true">&nbsp;</i>
                     {/*toggles the hiding of all of the children of the current grade*/}
-                    <button style={leafStyle} className="btn btn-link btn-sm pointer" onClick={() => {
+                    <button style={nonLeafStyle} className="btn-link btn pointer" onClick={() => {
                         store.dispatch({
                             type: 'TOGGLE_HIDE',
                             h: this.props.state.heritage.concat(this.props.state.id)

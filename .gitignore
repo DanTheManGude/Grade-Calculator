@@ -3,3 +3,5 @@
 build/*
 old/*
 node_modules/*
+
+public/icons/GC.ai
