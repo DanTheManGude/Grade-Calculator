@@ -31,24 +31,33 @@ export class App extends React.Component {
         firebase.auth().signInWithPopup(provider).then(function(result) {
           console.log("Yay :)");
           // This gives you a Google Access Token. You can use it to access the Google API.
-          var token = result.credential.accessToken;
+          //var token = result.credential.accessToken;
           // The signed-in user info.
-          var user = result.user;
-          console.log(user.email);
+          //var user = result.user;
+          //console.log(user.email);
         }).catch(function(error) {
             console.log("Uh OH :(")
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
+          console.log("Error " + errorCode + ": " + errorMessage);
           // The email of the user's account used.
-          var email = error.email;
+          //var email = error.email;
           // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
+          //var credential = error.credential;
         });
     }
 
     save(){
-        console.log("Saving");
+        let user = firebase.auth().currentUser;
+        if (user){
+            firebase.database().ref(user.uid).set({
+                username: user.displayName
+            });
+        }
+        else {
+            alert('You need to be signed in to save remotely.\nUse the Download button to save your grades to your computer.');
+        }
     }
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
@@ -77,15 +86,15 @@ export class App extends React.Component {
                         </li>
                         {/*Loads a previouslly saved grade frome firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Save' onClick={this.load}><i class="fas fa-cloud-download-alt"></i> Load</a>
+                            <a className="nav-link" id='Save' onClick={this.load}><i className="fas fa-cloud-download-alt"></i> Load</a>
                         </li>
                         {/*saves grade to firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Save' onClick={this.save}><i class="fa fa-cloud-upload-alt"></i> Save</a>
+                            <a className="nav-link" id='Save' onClick={this.save}><i className="fa fa-cloud-upload-alt"></i> Save</a>
                         </li>
                         {/*opens a modal to open a previouslly downloaded grade*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i class="fas fa-folder-open"></i> Open</a>
+                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-folder-open"></i> Open</a>
                         </li>
                         {/*opens a modal to download the current grade structure*/}
                         <li className="nav-item">
