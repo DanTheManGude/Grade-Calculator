@@ -11,7 +11,6 @@ export class App extends React.Component {
 
         this.changeModal = this.changeModal.bind(this);
         this.GoogleLogin = this.GoogleLogin.bind(this);
-        this.save = this.save.bind(this);
 
         // Initialize Firebase
         var config = {
@@ -36,19 +35,6 @@ export class App extends React.Component {
           var errorMessage = error.message;
           console.log("Error " + errorCode + ": " + errorMessage);
         });
-    }
-
-    save(){
-        let user = firebase.auth().currentUser;
-        if (user){
-            firebase.database().ref('users/' + user.uid).set({
-                grade: store.getState().grade
-            });
-            alert("Grades SAVED, associated with " + user.email)
-        }
-        else {
-            alert('You need to be signed in to save remotely.\nUse the Download button to save your grades to your computer.');
-        }
     }
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal

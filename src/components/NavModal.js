@@ -209,6 +209,25 @@ export class NavModal extends React.Component {
                             </div>
                         </div>
                     </div>);
+                case 'NotAuth':
+                    return (<div>
+                        <div className="modal-header">
+                          <h4 className="modal-title">Not Logged In</h4>
+                          <button type="button" className="close btn" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>
+                                Saving and Loading grades remotely are only available when you <strong>log in with a Google account.</strong>
+                            </p>
+                        </div>
+                        <div className="modal-footer">
+                            {/*dowloads the json of the root grade to the user's computer*/}
+                            <div className="flex-container">
+                              <button className="btn btn-outline-dark flex-element" data-dismiss="modal"
+                                >CLOSE</button>
+                            </div>
+                        </div>
+                    </div>);
             default:
                 return(<div></div>);
         }
