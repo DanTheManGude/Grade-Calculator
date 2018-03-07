@@ -2,8 +2,24 @@ import React from 'react';
 import { store } from '../index.js';
 import { firebase } from "./App.js";
 
-function changetoArray(json){
-    console.log(json);
+function fixFirebase(json){
+    json = {...json,heritage: []}
+    json = arrayGrades(json);
+    store.dispatch({
+        type: 'UPLOAD_GRADE',
+        state: json
+    });
+}
+
+function arrayGrades(grade){
+    if (grade.grades === undefined) {
+        return {...grade,grades: []};
+    } else {
+        var modifiedGrades = grade.grades.map(function(g) {
+          return arrayGrades(g);
+        });
+        return({...grade,grades: modifiedGrades});
+    }
 }
 
 //modal component created from one of the nav bar links
@@ -68,7 +84,7 @@ export class NavModal extends React.Component {
         var newGrade = null;
 
         newGrade = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + 'MyGrades' + '/grade').once('value').then(function(snapshot) {
-            changetoArray(snapshot.toJSON());
+            fixFirebase(snapshot.val());
         });
         //console.log(newGrade);
         //console.log()
