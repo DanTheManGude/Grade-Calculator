@@ -2,6 +2,7 @@ import React from 'react';
 import { store } from '../index.js';
 import { NavModal } from './NavModal.js';
 import { Grade } from './Grade.js';
+import { config } from '../config.js';
 var firebase = require("firebase");
 
 //main class that encompesses the entire application
@@ -13,14 +14,6 @@ export class App extends React.Component {
         this.GoogleLogin = this.GoogleLogin.bind(this);
 
         // Initialize Firebase
-        var config = {
-          apiKey: "AIzaSyD3NYaSGWpcjdwwoUZBC2j_p1y7eylw3kg",
-          authDomain: "grade-calculator-dg.firebaseapp.com",
-          databaseURL: "https://grade-calculator-dg.firebaseio.com",
-          projectId: "grade-calculator-dg",
-          storageBucket: "",
-          messagingSenderId: "525891462124"
-        };
         firebase.initializeApp(config);
     }
 
