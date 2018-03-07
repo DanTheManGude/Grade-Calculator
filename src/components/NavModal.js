@@ -76,7 +76,13 @@ export class NavModal extends React.Component {
 
     //saves the current grade to firebase
     handleSave(event) {
-        firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + store.getState().fileName).set({grade: store.getState().grade});
+        try{
+            firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + store.getState().fileName).set({grade: store.getState().grade});
+            alert("Successfully saved your grades.");
+        }
+        catch(err) {
+            alert("Names can NOT be empty or contain '.', '#'', '$', '[', or ']'");
+        };
     }
 
     //loads a grade from firebase and sets it to the root grade
