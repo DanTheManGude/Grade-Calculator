@@ -163,7 +163,7 @@ export class NavModal extends React.Component {
                     </div>
                     <div className="modal-body">
                         <p>
-                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong>This will override any grades saved the same name.</strong>
+                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong>This will override any grades saved the same name.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
                         </p>
                         <form className="form-horizontal">
                             {/*text form to type the desired name of the file*/}
@@ -190,7 +190,7 @@ export class NavModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <p>
-                                Load grades saved remotely to this same Google account. <strong>This will override the current grades on screen.</strong>
+                                Load grades saved remotely to this same Google account. <strong>This will override the current grades on screen.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
                             </p>
                             <form className="form-horizontal">
                                 {/*text form to type the desired name of the file*/}
