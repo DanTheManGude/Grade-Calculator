@@ -1,5 +1,6 @@
 import React from 'react';
 import { store } from '../index.js';
+import { firebase } from "./App.js";
 
 //modal component created from one of the nav bar links
 export class NavModal extends React.Component {
@@ -51,6 +52,11 @@ export class NavModal extends React.Component {
             }
         })(file);
         fileReader.readAsText(file);
+    }
+
+    //saves the current grade to firebase
+    handleSave(event) {
+        firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + store.getState().fileName).set({grade: store.getState().grade});
     }
 
     render() {
@@ -131,6 +137,30 @@ export class NavModal extends React.Component {
                         {/*dowloads the json of the root grade to the user's computer*/}
                         <div className="flex-container">
                           <a className="btn btn-outline-dark flex-element"  href={"data:" + data} download={store.getState().fileName + ".json"}>DOWNLOAD</a>
+                        </div>
+                    </div>
+                </div>);
+            case 'Save':
+                return (<div>
+                    <div className="modal-header">
+                      <h4 className="modal-title">Save Grades</h4>
+                      <button type="button" className="close btn" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div className="modal-body">
+                        <form className="form-horizontal">
+                            {/*text form to type the desired name of the file of the download*/}
+                            <div className="form-group">
+                                <label className="control-label">Name of file: </label>
+                                <input type="text" defaultValue={store.getState().fileName}
+                                onChange={this.handleChange} className="form-control" placeholder="Enter file name"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="modal-footer">
+                        {/*dowloads the json of the root grade to the user's computer*/}
+                        <div className="flex-container">
+                          <button className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.handleSave}
+                            >SAVE</button>
                         </div>
                     </div>
                 </div>);

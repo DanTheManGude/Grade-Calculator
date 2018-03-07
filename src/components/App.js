@@ -29,22 +29,12 @@ export class App extends React.Component {
         //Google login
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
-          console.log("Yay :)");
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          //var token = result.credential.accessToken;
-          // The signed-in user info.
-          //var user = result.user;
-          //console.log(user.email);
+          alert("Successfully logged in. Welcome " + result.user.displayName);
         }).catch(function(error) {
-            console.log("Uh OH :(")
-          // Handle Errors here.
+          console.log("Uh OH :(")
           var errorCode = error.code;
           var errorMessage = error.message;
           console.log("Error " + errorCode + ": " + errorMessage);
-          // The email of the user's account used.
-          //var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          //var credential = error.credential;
         });
     }
 
@@ -54,6 +44,7 @@ export class App extends React.Component {
             firebase.database().ref('users/' + user.uid).set({
                 grade: store.getState().grade
             });
+            alert("Grades SAVED, associated with " + user.email)
         }
         else {
             alert('You need to be signed in to save remotely.\nUse the Download button to save your grades to your computer.');
@@ -62,10 +53,19 @@ export class App extends React.Component {
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
     changeModal(event) {
-        store.dispatch({
-            type: 'UPDATE_MODAL_TYPE',
-            modal: event.target.id
-        });
+        let id = event.target.id;
+        if ((id === 'Save' || id === 'Load') && firebase.auth().currentUser === null){
+            store.dispatch({
+                    type: 'UPDATE_MODAL_TYPE',
+                    modal: 'NotAuth'
+            });
+        }
+        else {
+            store.dispatch({
+                type: 'UPDATE_MODAL_TYPE',
+                modal: event.target.id
+            });
+        }
     }
 
     render() {
@@ -86,11 +86,11 @@ export class App extends React.Component {
                         </li>
                         {/*Loads a previouslly saved grade frome firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Save' onClick={this.load}><i className="fas fa-cloud-download-alt"></i> Load</a>
+                            <a className="nav-link" id='Load' onClick={this.load}><i className="fas fa-cloud-download-alt"></i> Load</a>
                         </li>
                         {/*saves grade to firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Save' onClick={this.save}><i className="fa fa-cloud-upload-alt"></i> Save</a>
+                            <a className="nav-link" id='Save' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-cloud-upload-alt"></i> Save</a>
                         </li>
                         {/*opens a modal to open a previouslly downloaded grade*/}
                         <li className="nav-item">
@@ -150,3 +150,4 @@ export class App extends React.Component {
         );
     }
 }
+export {firebase};
