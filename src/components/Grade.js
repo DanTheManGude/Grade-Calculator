@@ -64,10 +64,10 @@ export class Grade extends React.Component {
         var hideText;
         var listStyle;
         if (this.props.state.hide){
-            hideText = <i className="fa fa-caret-right" aria-hidden="true"></i>;
+            hideText = <i className="fas fa-caret-right"></i>;
             listStyle = {display: 'none'};
         } else {
-            hideText = <i className="fa fa-caret-down" aria-hidden="true"></i>;
+            hideText = <i className="fas fa-caret-down"></i>;
             listStyle = {listStyleType: 'none'};
         }
         //value to represent the value of the grade, kind is determined by a toggle
