@@ -51,8 +51,8 @@ export class App extends React.Component {
     save(){
         let user = firebase.auth().currentUser;
         if (user){
-            firebase.database().ref(user.uid).set({
-                username: user.displayName
+            firebase.database().ref('users/' + user.uid).set({
+                grade: store.getState().grade
             });
         }
         else {
