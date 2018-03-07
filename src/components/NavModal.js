@@ -77,7 +77,7 @@ export class NavModal extends React.Component {
     //saves the current grade to firebase
     handleSave(event) {
         try{
-            firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + store.getState().fileName).set({grade: store.getState().grade});
+            firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({grade: store.getState().grade});
             alert("Successfully saved your grades.");
         }
         catch(err) {
@@ -87,13 +87,9 @@ export class NavModal extends React.Component {
 
     //loads a grade from firebase and sets it to the root grade
     handleLoad(event) {
-        var newGrade = null;
-
-        newGrade = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + 'MyGrades' + '/grade').once('value').then(function(snapshot) {
+        firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/grade').once('value').then(function(snapshot) {
             fixFirebase(snapshot.val());
         });
-        //console.log(newGrade);
-        //console.log()
     }
 
     render() {
@@ -185,16 +181,8 @@ export class NavModal extends React.Component {
                     </div>
                     <div className="modal-body">
                         <p>
-                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong>This will override any grades saved the same name.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
+                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong>This will override any grades saved with the same account.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
                         </p>
-                        <form className="form-horizontal">
-                            {/*text form to type the desired name of the file*/}
-                            <div className="form-group">
-                                <label className="control-label">Name of file: </label>
-                                <input type="text" defaultValue={store.getState().fileName}
-                                onChange={this.handleChange} className="form-control" placeholder="Enter file name"/>
-                            </div>
-                        </form>
                     </div>
                     <div className="modal-footer">
                         {/*dowloads the json of the root grade to the user's computer*/}
@@ -212,19 +200,11 @@ export class NavModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <p>
-                                Load grades saved remotely to this same Google account. <strong>This will override the current grades on screen.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
+                                Loads the grades saved remotely to this same Google account. <strong>This will override the current grades on screen.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
                             </p>
-                            <form className="form-horizontal">
-                                {/*text form to type the desired name of the file*/}
-                                <div className="form-group">
-                                    <label className="control-label">Name of file: </label>
-                                    <input type="text" defaultValue={store.getState().fileName}
-                                    onChange={this.handleChange} className="form-control" placeholder="Enter file name"/>
-                                </div>
-                            </form>
                         </div>
                         <div className="modal-footer">
-                            {/*dowloads the json of the root grade to the user's computer*/}
+                            {/*loads a grade saved from firebase*/}
                             <div className="flex-container">
                               <button className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.handleLoad}
                                 >LOAD</button>
