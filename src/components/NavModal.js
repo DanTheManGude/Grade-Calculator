@@ -2,6 +2,10 @@ import React from 'react';
 import { store } from '../index.js';
 import { firebase } from "./App.js";
 
+function changetoArray(json){
+    console.log(json);
+}
+
 //modal component created from one of the nav bar links
 export class NavModal extends React.Component {
     constructor(props) {
@@ -57,6 +61,17 @@ export class NavModal extends React.Component {
     //saves the current grade to firebase
     handleSave(event) {
         firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + store.getState().fileName).set({grade: store.getState().grade});
+    }
+
+    //loads a grade from firebase and sets it to the root grade
+    handleLoad(event) {
+        var newGrade = null;
+
+        newGrade = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/' + 'MyGrades' + '/grade').once('value').then(function(snapshot) {
+            changetoArray(snapshot.toJSON());
+        });
+        //console.log(newGrade);
+        //console.log()
     }
 
     render() {
@@ -147,8 +162,11 @@ export class NavModal extends React.Component {
                       <button type="button" className="close btn" data-dismiss="modal">&times;</button>
                     </div>
                     <div className="modal-body">
+                        <p>
+                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong>This will override any grades saved the same name.</strong>
+                        </p>
                         <form className="form-horizontal">
-                            {/*text form to type the desired name of the file of the download*/}
+                            {/*text form to type the desired name of the file*/}
                             <div className="form-group">
                                 <label className="control-label">Name of file: </label>
                                 <input type="text" defaultValue={store.getState().fileName}
@@ -164,6 +182,33 @@ export class NavModal extends React.Component {
                         </div>
                     </div>
                 </div>);
+                case 'Load':
+                    return (<div>
+                        <div className="modal-header">
+                          <h4 className="modal-title">Load Grades</h4>
+                          <button type="button" className="close btn" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>
+                                Load grades saved remotely to this same Google account. <strong>This will override the current grades on screen.</strong>
+                            </p>
+                            <form className="form-horizontal">
+                                {/*text form to type the desired name of the file*/}
+                                <div className="form-group">
+                                    <label className="control-label">Name of file: </label>
+                                    <input type="text" defaultValue={store.getState().fileName}
+                                    onChange={this.handleChange} className="form-control" placeholder="Enter file name"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            {/*dowloads the json of the root grade to the user's computer*/}
+                            <div className="flex-container">
+                              <button className="btn btn-outline-dark flex-element" data-dismiss="modal" onClick={this.handleLoad}
+                                >LOAD</button>
+                            </div>
+                        </div>
+                    </div>);
             default:
                 return(<div></div>);
         }

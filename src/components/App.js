@@ -86,7 +86,7 @@ export class App extends React.Component {
                         </li>
                         {/*Loads a previouslly saved grade frome firebase*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Load' onClick={this.load}><i className="fas fa-cloud-download-alt"></i> Load</a>
+                            <a className="nav-link" id='Load' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-cloud-download-alt"></i> Load</a>
                         </li>
                         {/*saves grade to firebase*/}
                         <li className="nav-item">
