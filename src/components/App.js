@@ -96,7 +96,7 @@ export class App extends React.Component {
                         </li>
                         {/*GoogleLogin*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google Login" height='30em'/></a>
+                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google Login" height='25em'/> Login</a>
                         </li>
                       </ul>
                     </div>
