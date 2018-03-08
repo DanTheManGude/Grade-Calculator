@@ -220,6 +220,10 @@ const banners = (state = [{'message': initialMessage, 'type': 'alert-info'}], ac
     switch (action.type) {
         case 'ADD_BANNER':
             return state.concat({'message': action.message, 'type': action.kind});
+        case 'REMOVE_BANNER':
+            var newS = state;
+            newS.splice(action.id, 1);
+            return newS;
         default:
             return state;
         }
