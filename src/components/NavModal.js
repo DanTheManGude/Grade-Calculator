@@ -52,6 +52,14 @@ export class NavModal extends React.Component {
     onFileSubmit(event) {
         var json;
         var file = store.getState().file;
+        if (file === null){
+            store.dispatch({
+                type: 'ADD_BANNER',
+                message: "No file selected",
+                'kind': 'alert-warning'
+            });
+            return;
+        }
         var fileReader = new FileReader();
         fileReader.onload = (function (theFile) {
             return function(e) {
@@ -67,7 +75,11 @@ export class NavModal extends React.Component {
                         throw {message:"Invalid file upload", name:"UserUpload"}
                     }
                 } catch (ex) {
-                    alert('JSON files created from this Website only please!');
+                    store.dispatch({
+                        type: 'ADD_BANNER',
+                        message: "JSON files created from this website only please!",
+                        'kind': 'alert-warning'
+                    });
                 }
             }
         })(file);
@@ -78,10 +90,17 @@ export class NavModal extends React.Component {
     handleSave(event) {
         try{
             firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({grade: store.getState().grade});
-            alert("Successfully saved your grades.");
-        }
+            store.dispatch({
+                type: 'ADD_BANNER',
+                message: "Successfully saved your grades.",
+                'kind': 'alert-success'
+            });        }
         catch(err) {
-            alert("Names can NOT be empty or contain '.', '#'', '$', '[', or ']'");
+            store.dispatch({
+                type: 'ADD_BANNER',
+                message: "Uh oh, something went wrong :(",
+                'kind': 'alert-danger'
+            });
         };
     }
 
@@ -139,7 +158,7 @@ export class NavModal extends React.Component {
                         <h6>FILES SAVED FROM THIS SITE ONLY PLEASE</h6>
                         {/*form for the user to select a file from their computer*/}
                         <div className="form-group">
-                            <input accept="json" className="form-control pointer" type="file" onChange={this.onChangeFile} />
+                            <input accept="json" defaultValue={store.getState().file} className="form-control pointer" type="file" onChange={this.onChangeFile} />
                         </div>
                     </div>
                     {/*activates the funtion to upload the file*/}

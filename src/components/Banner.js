@@ -1,17 +1,17 @@
 import React from 'react';
 import { store } from '../index.js';
 
-//component that represents a single grade item as well as recursivly renders more Grades
+//banner on the top of the page
 export class Banner extends React.Component {
     render() {
-        var type = store.getState().banner.type;
-        var show = store.getState().banner.show;
-        var clssNme = "alert alert-dismissable fade " + type + " " + show;
-        var message = store.getState().banner.message;
         return(
-            <div className={clssNme}>
-                <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {message}
+            <div>
+                {store.getState().banners.reverse().map(banner =>
+                    <div className={"alert alert-dismissable fade show " + banner.type}>
+                        <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {banner.message}
+                    </div>
+                )}
             </div>
         );
     }

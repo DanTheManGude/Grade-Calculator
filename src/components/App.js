@@ -22,9 +22,18 @@ export class App extends React.Component {
         //Google login
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
-          alert("Successfully logged in. Welcome " + result.user.displayName);
+            var message = "Successfully logged in. Welcome " + result.user.email;
+            store.dispatch({
+                type: 'ADD_BANNER',
+                message: message,
+                'kind': 'alert-success'
+            });
         }).catch(function(error) {
-          console.log("Uh OH :(")
+            store.dispatch({
+                type: 'ADD_BANNER',
+                message: "Uh oh, something went wrong :(",
+                'kind': 'alert-danger'
+            });
           var errorCode = error.code;
           var errorMessage = error.message;
           console.log("Error " + errorCode + ": " + errorMessage);

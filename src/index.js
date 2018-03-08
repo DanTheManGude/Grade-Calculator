@@ -216,10 +216,10 @@ const initialMessage = <div>To get started hit plus to create components that ma
 <br/>Hit the gears to change the grade value and name.
 <br/>Hit the <i className="fa fa-question-circle" aria-hidden="true"></i> for Hints and Help using the site.</div>
 
-const banner = (state = {'message': initialMessage, 'type': 'alert-info', 'show': 'show'}, action) => {
+const banners = (state = [{'message': initialMessage, 'type': 'alert-info'}], action) => {
     switch (action.type) {
-        case 'UPDATE_BANNER':
-            return action.state;
+        case 'ADD_BANNER':
+            return state.concat({'message': action.message, 'type': action.kind});
         default:
             return state;
         }
@@ -232,7 +232,7 @@ const gradeApp = combineReducers({
     fileName,
     file,
     navModal,
-    banner
+    banners
 });
 
 //redux store
