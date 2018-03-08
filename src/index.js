@@ -211,13 +211,28 @@ const navModal = (state = null, action) => {
         }
 }
 
+//reducer for the banner
+const initialMessage = <div>To get started hit plus to create components that make up a grade.
+<br/>Hit the gears to change the grade value and name.
+<br/>Hit the <i className="fa fa-question-circle" aria-hidden="true"></i> for Hints and Help using the site.</div>
+
+const banner = (state = {'message': initialMessage, 'type': 'alert-info', 'show': 'show'}, action) => {
+    switch (action.type) {
+        case 'UPDATE_BANNER':
+            return action.state;
+        default:
+            return state;
+        }
+}
+
 //main reducer
 const gradeApp = combineReducers({
     grade,
     editGradeModal,
     fileName,
     file,
-    navModal
+    navModal,
+    banner
 });
 
 //redux store
