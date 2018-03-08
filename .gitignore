@@ -3,5 +3,3 @@
 build/*
 old/*
 node_modules/*
-
-src/config.js
