@@ -31,7 +31,7 @@ export class App extends React.Component {
         }).catch(function(error) {
             store.dispatch({
                 type: 'ADD_BANNER',
-                message: "Uh oh, something went wrong :(",
+                message: "Something went wrong trying to login.",
                 'kind': 'alert-danger'
             });
           var errorCode = error.code;
