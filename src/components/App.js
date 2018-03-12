@@ -73,21 +73,27 @@ export class App extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
-                        {/*Loads a previouslly saved grade frome firebase*/}
-                        <li className="nav-item">
-                            <a className="nav-link" id='Load' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-cloud-download-alt"></i> Load</a>
+                        {/*saves grade*/}
+                        <li className="nav-item dropdown">
+                            <a className="nav-link"><i className="fas fa-save"></i> Save <i className="fas fa-caret-down"></i>
+                            </a>
+                            <div className="dropdown-content">
+                              {/*saves grade to firebase*/}
+                              <a id='Save' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-cloud-upload-alt"></i> Save</a>
+                              {/*opens a modal to download the current grade structure*/}
+                              <a id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-download" aria-hidden="true"></i> Download</a>
+                            </div>
                         </li>
-                        {/*saves grade to firebase*/}
-                        <li className="nav-item">
-                            <a className="nav-link" id='Save' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-cloud-upload-alt"></i> Save</a>
-                        </li>
-                        {/*opens a modal to open a previouslly downloaded grade*/}
-                        <li className="nav-item">
-                            <a className="nav-link" id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-folder-open"></i> Open</a>
-                        </li>
-                        {/*opens a modal to download the current grade structure*/}
-                        <li className="nav-item">
-                            <a className="nav-link" id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-download" aria-hidden="true"></i> Download</a>
+                        {/*loads grade*/}
+                        <li className="nav-item dropdown">
+                            <a className="nav-link"><i className="fas fa-folder-open"></i> Load <i className="fas fa-caret-down"></i>
+                            </a>
+                            <div className="dropdown-content">
+                              {/*Loads a previouslly saved grade frome firebase*/}
+                              <a id='Load' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-cloud-download-alt"></i> Cloud</a>
+                              {/*opens a modal to open a previouslly downloaded grade*/}
+                              <a id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-desktop"></i> Locally</a>
+                            </div>
                         </li>
                         {/*Github repo where this project can be found*/}
                         <li className="nav-item">
