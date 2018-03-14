@@ -74,6 +74,10 @@ export class NavBar extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" href="mailto:contact@dangude.com?Subject=Grade%20Calculator%20Contact"><i className="fa fa-envelope" aria-hidden="true"></i> Contact</a>
                         </li>
+                        {/*my main homepage*/}
+                        <li className="nav-item">
+                          <a className="nav-link" href="https://dangude.com" target="_blank"><img src="icons/DG.png" alt="DG" height='25'/> Homepage</a>
+                        </li>
                         {/*GoogleLogin*/}
                         <li className="nav-item">
                             <a className="nav-link" id='Login' onClick={GoogleLogin}><img src="icons/G.png" alt="Google Login" height='25em'/> Login</a>
