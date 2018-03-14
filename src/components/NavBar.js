@@ -86,7 +86,7 @@ export class NavBar extends React.Component {
                 {/*outershell for the modal created by any of the link in the nav bar*/}
                 <div className="modal fade" id="NavModal" role="dialog">
                   <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className="modal-content default">
                         <NavModal />
                     </div>
                   </div>
