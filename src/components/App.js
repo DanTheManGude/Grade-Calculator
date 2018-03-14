@@ -6,39 +6,39 @@ import { Banner } from './Banner.js';
 import { config } from '../config.js';
 var firebase = require("firebase");
 
+export function GoogleLogin(){
+    //Google login
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+        var message = "Successfully logged in. Welcome " + result.user.email;
+        store.dispatch({
+            type: 'ADD_BANNER',
+            message: message,
+            'kind': 'alert-success'
+        });
+    }).catch(function(error) {
+        store.dispatch({
+            type: 'ADD_BANNER',
+            message: "Something went wrong trying to login.",
+            'kind': 'alert-danger'
+        });
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log("Error " + errorCode + ": " + errorMessage);
+    });
+}
+
 //main class that encompesses the entire application
 export class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.changeModal = this.changeModal.bind(this);
-        this.GoogleLogin = this.GoogleLogin.bind(this);
 
         // Initialize Firebase
         firebase.initializeApp(config);
     }
 
-    GoogleLogin(){
-        //Google login
-        var provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-            var message = "Successfully logged in. Welcome " + result.user.email;
-            store.dispatch({
-                type: 'ADD_BANNER',
-                message: message,
-                'kind': 'alert-success'
-            });
-        }).catch(function(error) {
-            store.dispatch({
-                type: 'ADD_BANNER',
-                message: "Something went wrong trying to login.",
-                'kind': 'alert-danger'
-            });
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log("Error " + errorCode + ": " + errorMessage);
-        });
-    }
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
     changeModal(event) {
@@ -105,7 +105,7 @@ export class App extends React.Component {
                         </li>
                         {/*GoogleLogin*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Login' onClick={this.GoogleLogin}><img src="icons/google.png" alt="Google Login" height='25em'/> Login</a>
+                            <a className="nav-link" id='Login' onClick={GoogleLogin}><img src="icons/G.png" alt="Google Login" height='25em'/> Login</a>
                         </li>
                       </ul>
                     </div>

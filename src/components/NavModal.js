@@ -1,6 +1,7 @@
 import React from 'react';
 import { store } from '../index.js';
 import { firebase } from "./App.js";
+import { GoogleLogin } from './App.js'
 
 function fixFirebase(json){
     json = {...json,heritage: []}
@@ -238,7 +239,7 @@ export class NavModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <p>
-                                Saving and Loading grades remotely are only available when you <strong>log in with a Google account.</strong>
+                                Saving and Loading grades remotely are only available when you <strong>Log in with:</strong> <a data-dismiss="modal" onClick={GoogleLogin}><img src="icons/google.png" alt="Google Login" height='40em'/></a>
                             </p>
                         </div>
                         <div className="modal-footer">
