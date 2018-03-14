@@ -4,7 +4,7 @@ import { NavBar } from './NavBar.js';
 import { Grade } from './Grade.js';
 import { Banner } from './Banner.js';
 import { config } from '../config.js';
-var firebase = require("firebase");
+export var firebase = require("firebase");
 
 export function GoogleLogin(){
     //Google login
@@ -60,4 +60,3 @@ export class App extends React.Component {
         );
     }
 }
-export {firebase};
