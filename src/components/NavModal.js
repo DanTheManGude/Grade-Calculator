@@ -1,7 +1,7 @@
 import React from 'react';
 import { store } from '../index.js';
 import { firebase } from "./App.js";
-import { GoogleLogin } from './App.js'
+import { GoogleLogin } from './App.js';
 
 function fixFirebase(json){
     json = {...json,heritage: []}
