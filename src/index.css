@@ -54,3 +54,7 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.override {
+    color: #c22;
+}
