@@ -90,9 +90,9 @@ export class App extends React.Component {
                             </a>
                             <div className="dropdown-content">
                               {/*Loads a previouslly saved grade frome firebase*/}
-                              <a id='Load' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-cloud-download-alt"></i> Cloud</a>
+                              <a id='Load' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-cloud-download-alt"></i> Load</a>
                               {/*opens a modal to open a previouslly downloaded grade*/}
-                              <a id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-desktop"></i> Locally</a>
+                              <a id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-desktop"></i> Open</a>
                             </div>
                         </li>
                         {/*Github repo where this project can be found*/}
