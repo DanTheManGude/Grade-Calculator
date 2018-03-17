@@ -134,6 +134,7 @@ export class NavModal extends React.Component {
                             <li>To encorperate your esiting GPA, set the 'Points recieved' to your GPA, 'Points available' to 100, and 'Weight' to how many credits you have taken.</li>
                             <li>The <i className="fa fa-download"></i> Download is to dowload the current grades.</li>
                             <li>The <i className="fa fa-upload"></i> Upload to to load a previously dowloaded grades.</li>
+                            <li>To save your grades and access them another time from any computer, log in with your Google account located on the far right on the top bar.</li>
                         </ul>
                     </div>
                     <div className="modal-footer">
