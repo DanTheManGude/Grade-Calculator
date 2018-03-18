@@ -4,11 +4,24 @@ import { firebase } from "./App.js";
 import { GoogleLogin } from './App.js';
 
 function fixFirebase(json){
+    if (json === null){
+        store.dispatch({
+            type: 'ADD_BANNER',
+            message: "No grade saved to this account.",
+            'kind': 'alert-warning'
+        });
+        return;
+    }
     json = {...json,heritage: []}
     json = arrayGrades(json);
     store.dispatch({
         type: 'UPLOAD_GRADE',
         state: json
+    });
+    store.dispatch({
+        type: 'ADD_BANNER',
+        message: "Successfully loaded your grades.",
+        'kind': 'alert-success'
     });
 }
 
@@ -95,11 +108,12 @@ export class NavModal extends React.Component {
                 type: 'ADD_BANNER',
                 message: "Successfully saved your grades.",
                 'kind': 'alert-success'
-            });        }
+            });
+        }
         catch(err) {
             store.dispatch({
                 type: 'ADD_BANNER',
-                message: "Uh oh, something went wrong :(",
+                message: "Something went wrong trying to log in.",
                 'kind': 'alert-danger'
             });
         };
