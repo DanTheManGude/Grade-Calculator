@@ -6,16 +6,11 @@ import { GoogleLogin } from './App.js';
 
 //Navbar on top housing various links related to application wide functions
 export class NavBar extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.changeModal = this.changeModal.bind(this);
-    }
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
-    changeModal(event) {
-        let id = event.target.id;
-        if ((id === 'Save' || id === 'Load') && firebase.auth().currentUser === null){
+    changeModal(kind) {
+        console.log(kind);
+        if ((kind === 'Save' || kind === 'Load') && firebase.auth().currentUser === null){
             store.dispatch({
                     type: 'UPDATE_MODAL_TYPE',
                     modal: 'NotAuth'
@@ -24,7 +19,7 @@ export class NavBar extends React.Component {
         else {
             store.dispatch({
                 type: 'UPDATE_MODAL_TYPE',
-                modal: event.target.id
+                modal: kind
             });
         }
     }
@@ -42,7 +37,7 @@ export class NavBar extends React.Component {
                       <ul className="navbar-nav ml-auto">
                         {/*opens a modal with helpful how-tos*/}
                         <li className="nav-item">
-                            <a className="nav-link" id='Hints' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-question-circle" aria-hidden="true"></i> Help</a>
+                            <a className="nav-link" data-toggle="modal" data-target="#NavModal" onClick={() => {this.changeModal("Hints")}}><i className="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
                         {/*saves grade*/}
                         <li className="nav-item dropdown">
@@ -50,9 +45,9 @@ export class NavBar extends React.Component {
                             </a>
                             <div className="dropdown-content">
                               {/*saves grade to firebase*/}
-                              <a id='Save' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-cloud-upload-alt"></i> Save</a>
+                              <a data-toggle="modal" data-target="#NavModal" onClick={() => {this.changeModal("Save")}}><i className="fa fa-cloud-upload-alt"></i> Save</a>
                               {/*opens a modal to download the current grade structure*/}
-                              <a id='Download' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fa fa-download" aria-hidden="true"></i> Download</a>
+                              <a data-toggle="modal" data-target="#NavModal" onClick={() => {this.changeModal("Download")}}><i className="fa fa-download" aria-hidden="true"></i> Download</a>
                             </div>
                         </li>
                         {/*loads grade*/}
@@ -61,9 +56,9 @@ export class NavBar extends React.Component {
                             </a>
                             <div className="dropdown-content">
                               {/*Loads a previouslly saved grade frome firebase*/}
-                              <a id='Load' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-cloud-download-alt"></i> Load</a>
+                              <a data-toggle="modal" data-target="#NavModal" onClick={() => {this.changeModal("Load")}}><i className="fas fa-cloud-download-alt"></i> Load</a>
                               {/*opens a modal to open a previouslly downloaded grade*/}
-                              <a id='Upload' data-toggle="modal" data-target="#NavModal" onClick={this.changeModal}><i className="fas fa-desktop"></i> Open</a>
+                              <a data-toggle="modal" data-target="#NavModal" onClick={() => {this.changeModal("Open")}}><i className="fas fa-desktop"></i> Open</a>
                             </div>
                         </li>
                         {/*Github repo where this project can be found*/}

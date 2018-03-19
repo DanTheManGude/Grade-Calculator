@@ -164,7 +164,7 @@ export class NavModal extends React.Component {
                         </div>
                     </div>
                 </div>);
-            case 'Upload':
+            case 'Open':
                 return (<div>
                     <div className="modal-header">
                       <h4 className="modal-title">Upload Grades</h4>
