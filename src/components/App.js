@@ -10,7 +10,7 @@ export function GoogleLogin(){
     //Google login
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function(result) {
-        var message = "Successfully logged in. Welcome " + result.user.email;
+        var message = "Successfully logged in. Welcome " + result.user.displayName;
         store.dispatch({
             type: 'ADD_BANNER',
             message: message,

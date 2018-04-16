@@ -216,7 +216,7 @@ export class NavModal extends React.Component {
                     </div>
                     <div className="modal-body">
                         <p>
-                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong className='override'>This will override any grades saved with the same account.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
+                            Save the grade remotely, being able to acces it from any other device also logged in to this same Google account. <strong className='override'>This will override any grades saved with the same account.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.displayName}</em>
                         </p>
                     </div>
                     <div className="modal-footer">
@@ -235,7 +235,7 @@ export class NavModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <p>
-                                Loads the grades saved remotely to this same Google account. <strong className='override'>This will override the current grades on screen.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.email}</em>
+                                Loads the grades saved remotely to this same Google account. <strong className='override'>This will override the current grades on screen.</strong><br/>Currently logged in as <em>{firebase.auth().currentUser.displayName}</em>
                             </p>
                         </div>
                         <div className="modal-footer">
