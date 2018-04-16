@@ -9,7 +9,6 @@ export class NavBar extends React.Component {
 
     //updates a piece of state to determine what link in the nav bar provoked the showing of a modal
     changeModal(kind) {
-        console.log(kind);
         if ((kind === 'Save' || kind === 'Load') && firebase.auth().currentUser === null){
             store.dispatch({
                     type: 'UPDATE_MODAL_TYPE',
