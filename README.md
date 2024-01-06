@@ -11,3 +11,6 @@ Single Page React Redux app to calculate grade averages.
 - Used in order to save and load grades
 - src/config.js contains Firebase credentials
 - Uses Google login and realtime database
+
+# Deploy
+Publish to `dangude.com` using GH Pages with `npm run deploy`
